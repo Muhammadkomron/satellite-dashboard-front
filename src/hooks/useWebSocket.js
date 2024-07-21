@@ -1,48 +1,69 @@
-import {useEffect, useState} from 'react';
+// import { useEffect, useState } from "react";
 
-const REACT_APP_WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
+// const useWebSocket = () => {
+//   const [data, setData] = useState({ t: 20, h: 50, v: 3.7, x: 0, y: 0, z: 0 });
+//   const [isConnected, setIsConnected] = useState(true);
+
+//   useEffect(() => {
+//     const interval = setInterval(() => {
+//       setData({
+//         t: Math.random() * 30,
+//         h: Math.random() * 100,
+//         v: Math.random() * 10,
+//         x: Math.sin(Date.now() / 1000),
+//         y: Math.cos(Date.now() / 1000),
+//         z: Math.sin(Date.now() / 2000),
+//       });
+//     }, 1000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   return { data, isConnected };
+// };
+
+// export default useWebSocket;  //randomni datalar
+
+import { useEffect, useState } from "react";
 
 const useWebSocket = () => {
-    const [data, setData] = useState({i: 0, x:0, t: 0, h: 0, v: 0, ax: 0, ay:0, az: 0, gx: 0, gy: 0, gz: 0});
-    const [isConnected, setIsConnected] = useState(false);
+  const [data, setData] = useState({ t: 20, h: 50, v: 3.7, x: 0, y: 0, z: 0 });
+  const [isConnected, setIsConnected] = useState(true);
 
-    useEffect(() => {
-        const key = Math.random().toString(36).substr(2, 10);
-        console.log(REACT_APP_WEBSOCKET_URL);
-        const ws = new WebSocket(`${REACT_APP_WEBSOCKET_URL}?key=${key}`);
+  useEffect(() => {
+    const mockWebSocketConnection = () => {
+      const ws = new WebSocket("wss://your-websocket-server-url");
 
-        ws.onopen = () => {
-            setIsConnected(true);
-            console.log('Connected to WebSocket server');
-        };
-        ws.onmessage = (event) => {
-            try {
-                console.log(event.data);
-                const receivedData = JSON.parse(event.data);
-                setData(prevData => ({
-                    ...prevData,
-                    ...receivedData
-                }));
-            } catch (error) {
-                console.log('Error parsing JSON:', error);
-            }
-        };
+      ws.onopen = () => {
+        setIsConnected(true);
+        console.log("WebSocket connected");
+      };
 
-        ws.onclose = () => {
-            setIsConnected(false);
-            console.log('Disconnected from WebSocket server');
-        };
+      ws.onmessage = (event) => {
+        const incomingData = JSON.parse(event.data);
+        setData(incomingData);
+      };
 
-        ws.onerror = (error) => {
-            console.error('WebSocket error:', error);
-        };
+      ws.onclose = () => {
+        setIsConnected(false);
+        console.log("WebSocket disconnected");
+      };
 
-        return () => {
-            ws.close();
-        };
-    }, []);
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+      };
 
-    return {data, isConnected};
+      return ws;
+    };
+
+    const ws = mockWebSocketConnection();
+
+    return () => {
+      ws.close();
+    };
+  }, []);
+
+  return { data, isConnected };
 };
 
 export default useWebSocket;
