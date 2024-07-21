@@ -22,7 +22,7 @@
 //   return { data, isConnected };
 // };
 
-// export default useWebSocket;  //randomni datalar
+// export default useWebSocket; //randomni datalar
 
 import { useEffect, useState } from "react";
 
