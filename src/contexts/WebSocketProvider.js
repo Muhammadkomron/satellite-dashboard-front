@@ -10,7 +10,7 @@ const defaultWebSocketContext = {
         humidity: 0,
         voltage: 0,
         gyro: {yaw: 0, pitch: 0, roll: 0},
-        acceleration: {x: 0, y: 0, z: 0},
+        acceleration: {x: -5, y: 1, z: 10},
     },
     connected: false,
 };
@@ -26,7 +26,7 @@ export const WebSocketProvider = ({children}) => {
         humidity: 0,
         voltage: 0,
         gyro: {yaw: 0, pitch: 0, roll: 0},
-        acceleration: {x: 0, y: 0, z: 0},
+        acceleration: {x: -5, y: 1, z: 10},
     });
     const [connected, setConnected] = useState(false);
 
