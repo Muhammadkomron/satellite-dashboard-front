@@ -1,51 +1,55 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #F5F5F5;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-p {
-  font-size: 1.5em;
-}
-
-.app {
-  width: 100vw;
   height: 100vh;
+  background-color: #f0f0f0;
 }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Divide into 2 columns */
-  grid-template-rows: repeat(2, 1fr); /* Divide into 2 rows */
-  gap: 20px; /* Spacing between grid items */
-  height: 100%;
-}
-
-.grid-item {
-  position: relative;
-}
-
-.fullscreen-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 90%;
-  height: 90%;
+.content {
   display: flex;
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 20px;
   padding: 20px;
-  border: 1px solid #ddd;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  width: 300px;
+}
+
+.real-time-data {
+  margin-bottom: 20px;
+}
+
+.real-time-data h2 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.real-time-data p {
+  margin: 5px 0;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.graph {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
