@@ -1,3 +1,72 @@
+/*.App {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  height: 100vh;*/
+/*  background-color: #f0f0f0;*/
+/*}*/
+
+/*.content {*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  justify-content: center;*/
+/*  align-items: flex-start;*/
+/*  width: 100%;*/
+/*  max-width: 1200px;*/
+/*  margin: 20px;*/
+/*}*/
+
+/*.canvas-container {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
+
+/*.canvas {*/
+/*  background-color: #ffffff;*/
+/*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*  border-radius: 10px;*/
+/*  width: 30vw;*/
+/*}*/
+
+/*.data-container {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  justify-content: space-between;*/
+/*  margin-right: 20px;*/
+/*  padding: 20px;*/
+/*  background-color: #ffffff;*/
+/*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*  border-radius: 10px;*/
+/*  width: 100%;*/
+/*}*/
+
+/*.real-time-data {*/
+/*  margin-bottom: 20px;*/
+/*}*/
+
+/*.real-time-data h2 {*/
+/*  margin: 0 0 10px;*/
+/*  font-size: 1.5em;*/
+/*  color: #333;*/
+/*}*/
+
+/*.real-time-data p {*/
+/*  margin: 5px 0;*/
+/*  font-size: 1.2em;*/
+/*  color: #555;*/
+/*}*/
+
+/*.graph {*/
+/*  margin-top: 20px;*/
+/*  padding: 10px;*/
+/*  background-color: #ffffff;*/
+/*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*  border-radius: 10px;*/
+/*}*/
+
 .App {
   display: flex;
   flex-direction: column;
@@ -5,6 +74,8 @@
   justify-content: center;
   height: 100vh;
   background-color: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .content {
@@ -14,7 +85,7 @@
   align-items: flex-start;
   width: 100%;
   max-width: 1200px;
-  margin: 20px;
+  margin: 20px 0;
 }
 
 .canvas-container {
@@ -22,33 +93,41 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex: 1;
 }
 
 .canvas {
-  border: 1px solid #ccc;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
+  width: 100%;
+  max-width: 30vw;
+  box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
-.sidebar {
+.data-cells {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-left: 20px;
-  padding: 20px;
-  background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  width: 300px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
 }
 
 .real-time-data {
   margin-bottom: 20px;
 }
 
+.real-time-data-text {
+  display: flex;
+}
+
+.real-time-data-text-left, .real-time-data-text-right {
+  width: 50%;
+}
+
 .real-time-data h2 {
-  margin: 0;
-  margin-bottom: 10px;
+  margin: 0 0 10px;
   font-size: 1.5em;
   color: #333;
 }
@@ -59,10 +138,73 @@
   color: #555;
 }
 
-.graph {
-  margin-top: 20px;
-  padding: 10px;
+/*.cell {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  padding: 20px;*/
+/*  background-color: #ffffff;*/
+/*  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+/*  border-radius: 10px;*/
+/*  margin-bottom: 20px;*/
+/*  max-width: 1000px;*/
+/*  box-sizing: border-box;*/
+/*  height: auto;*/
+/*}*/
+
+.cell, .graph, .video-cell{
   background-color: #ffffff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  height: auto;
+  margin-bottom: 20px;
+  max-width: 1000px;
+  padding: 20px;
+  width: 100%;
+}
+
+/*.video-player > div {*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  width: 100%;*/
+/*  height: 100%;*/
+/*}*/
+
+@media (max-width: 1200px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .canvas-container {
+    width: 100%;
+  }
+
+  .data-cells {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .canvas {
+    max-width: 80vw;  /* Adjust canvas width for tablets */
+  }
+
+  .cell,
+  .graph {
+    max-width: 80vw;  /* Adjust cell and graph width for tablets */
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas {
+    max-width: 90vw;  /* Adjust canvas width for mobile devices */
+  }
+
+  .cell,
+  .graph {
+    max-width: 90vw;
+  }
 }
