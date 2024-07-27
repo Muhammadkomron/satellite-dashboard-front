@@ -27,7 +27,7 @@ function App() {
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={3} opacity={0.1} />
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={6} opacity={0.2} color="red" />
                         </Canvas>
-                        <div className="cell graph">
+                        <div className="cell graph canvas">
                             <AltitudeGraph />
                         </div>
                     </div>

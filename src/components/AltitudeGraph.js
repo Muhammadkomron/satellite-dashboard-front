@@ -17,8 +17,8 @@ const AltitudeGraph = () => {
         const altitude = data.altitude;
         const newLabel = new Date().toLocaleTimeString();
         setAltitude((prevData) => {
-            const updatedLabels = [...prevData.labels.slice(-14), newLabel];
-            const updatedData = [...prevData.datasets[0].data.slice(-14), altitude];
+            const updatedLabels = [...prevData.labels.slice(-6), newLabel];
+            const updatedData = [...prevData.datasets[0].data.slice(-6), altitude];
 
             return {
                 labels: updatedLabels, datasets: [{
