@@ -1,17 +1,24 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 
-// Default context value with added GPS coordinates
 const defaultWebSocketContext = {
     data: {
         i: 0,
         status: -1,
+        altitude: 0,
         temperature: 0,
+        pressure: 0,
         humidity: 0,
         voltage: 0,
         gyro: {yaw: 0, pitch: 0, roll: 0},
         acceleration: {x: -5, y: 1, z: 10},
-        gps: {latitude: 0, longitude: 0},
-        altitude: 0,
+        gps: {altitude: 0, latitude: 0, longitude: 0},
+        error: {
+            container_landing_rate: false,
+            science_payload_landing_rate: false,
+            container_pressure_data: false,
+            science_payload_position: false,
+            release: false
+        },
     },
     connected: false,
 };
@@ -24,12 +31,19 @@ export const WebSocketProvider = ({children}) => {
         status: -1,
         altitude: 0,
         temperature: 0,
+        pressure: 0,
         humidity: 0,
         voltage: 0,
-        gyro: {yaw: 0, pitch: 0, roll: 40},
-        acceleration: {x: -5, y: 1, z: 10},
-        latitude: 0,
-        longitude: 0,
+        gyro: {yaw: 0, pitch: 0, roll: 0},
+        acceleration: {x: 0, y: 0, z: 0},
+        gps: {altitude: 0, latitude: 0, longitude: 0},
+        error: {
+            container_landing_rate: false,
+            science_payload_landing_rate: false,
+            container_pressure_data: false,
+            science_payload_position: false,
+            release: false
+        },
     });
 
     // Simulate WebSocket data with random values
@@ -40,6 +54,7 @@ export const WebSocketProvider = ({children}) => {
                 i: prevData.i + 1,
                 altitude: Math.floor(Math.random() * 900),
                 temperature: Math.floor(Math.random() * 30),
+                pressure: Math.floor(Math.random() * 30),
                 humidity: Math.floor(Math.random() * 100),
                 voltage: Math.floor(Math.random() * 12),
                 gyro: {
@@ -52,8 +67,11 @@ export const WebSocketProvider = ({children}) => {
                     y: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1), // Fixed line
                     z: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1)
                 },
-                latitude: (Math.random() * 180 - 90).toFixed(6), // Random latitude between -90 and 90
-                longitude: (Math.random() * 360 - 180).toFixed(6), // Random longitude between -180 and 180
+                gps: {
+                    altitude: Math.floor(Math.random() * 900),
+                    latitude: (Math.random() * 180 - 90).toFixed(6), // Random latitude between -90 and 90
+                    longitude: (Math.random() * 360 - 180).toFixed(6), // Random longitude between -180 and 180
+                },
             }));
         }, 1000);
 

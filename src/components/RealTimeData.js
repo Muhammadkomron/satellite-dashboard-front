@@ -86,6 +86,7 @@ const RealTimeData = () => {
                 <div className="real-time-data-text-right">
                     <p><strong>Temperature:</strong> {data ? `${data.temperature} °C` : 'N/A'}</p>
                     <p><strong>Voltage:</strong> {data ? `${data.voltage} V` : 'N/A'}</p>
+                    <p><strong>Pressure:</strong> {data ? `${data.pressure} Pa` : 'N/A'}</p>
                     <p><strong>Iteration:</strong> {data ? data.i : 'N/A'}</p>
                 </div>
             </div>

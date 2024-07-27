@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css'; 
+import '../App.css';
 
-const Preloader = () => {
-    const [loading, setLoading] = useState(true);
+const Preloader = ({ onLoadingComplete }) => {
     const [displayedText, setDisplayedText] = useState('');
-    
+
     const text = `
     Launch Sequence Initiated...
     Systems Check:
@@ -27,7 +26,7 @@ const Preloader = () => {
 
     useEffect(() => {
         const totalDuration = 3500; // 3.5 seconds
-        const typingSpeed = text.length / totalDuration; // Characters per millisecond
+        const typingSpeed = totalDuration / text.length; // Milliseconds per character
         let index = 0;
 
         const interval = setInterval(() => {
@@ -37,29 +36,27 @@ const Preloader = () => {
             } else {
                 clearInterval(interval);
                 setTimeout(() => {
-                    setLoading(false);
-                }, 1500); // Additional 1-second delay
+                    if (onLoadingComplete) {
+                        onLoadingComplete();
+                    }
+                }, 1500); // Additional 1.5-second delay
             }
         }, typingSpeed);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [text, onLoadingComplete]);
 
     return (
-        loading ? (
-            <div className="preloader">
-                <div className="logo-container">
-                    <img src="/icons/nazarx-transformed.png" alt="Logo" className="pulsing-logo"/>
-                </div>
-                <div className="console">
-                    <div className="console-text">
-                        {displayedText}
-                    </div>
+        <div className="preloader">
+            <div className="logo-container">
+                <img src="/icons/nazarx-transformed.png" alt="Logo" className="pulsing-logo"/>
+            </div>
+            <div className="console">
+                <div className="console-text">
+                    {displayedText}
                 </div>
             </div>
-        ) : (
-            <div>Main content goes here...</div>
-        )
+        </div>
     );
 };
 
