@@ -14,11 +14,31 @@ const numberToText = (number) => {
     return numberMap[number] || 'NOT Ready to Flight';
 };
 
+const formatDate = (date) => {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${day}/${month}/${year}, ${hours}:${minutes}:${seconds}`;
+};
+
 const RealTimeData = () => {
     const { data, connected } = useWebSocket();
     const [status, setStatus] = useState('Error');
     const [alarmOn, setAlarmOn] = useState(true);
+    const [currentTime, setCurrentTime] = useState(formatDate(new Date()));
     const audioRef = useRef(null);
+
+    // Update the current time every second
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(formatDate(new Date()));
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     // Handle status change and play sound if necessary
     useEffect(() => {
@@ -56,6 +76,7 @@ const RealTimeData = () => {
         <div className={`real-time-data ${status === 'Error' ? 'error' : 'ok'}`} onClick={handleUserInteraction}>
             <h2>Real-Time Data</h2>
             <p><strong>Status:</strong> {status}</p>
+            <p><strong>Mission Time:</strong> {currentTime}</p>
             <div className="real-time-data-text">
                 <div className="real-time-data-text-left">
                     <p><strong>WebSocket Status:</strong> {connected ? 'Connected' : 'Disconnected'}</p>

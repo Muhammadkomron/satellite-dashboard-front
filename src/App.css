@@ -6,7 +6,7 @@
   background-color: #f0f0f0;
   padding: 20px;
   box-sizing: border-box;
-  height: 100vh; /* Make the App container full height */
+  height: 100%; /* Make the App container full height */
 }
 
 .content {
@@ -37,7 +37,7 @@
 
 .canvas-container {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  grid-template-columns: repeat(3, 1fr); /* Two equal columns */
   grid-gap: 20px;
   grid-column: 1 / 5; /* Span all four columns */
   height: 47vh;
@@ -245,4 +245,17 @@
 
 .alarm-toggle:active {
   transform: scale(0.98);
+}
+
+
+/* Other existing styles */
+
+.real-time-data p {
+  margin: 10px 0;
+}
+
+.real-time-data .date-time {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
 }

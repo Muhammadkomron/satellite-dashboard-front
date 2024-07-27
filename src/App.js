@@ -8,6 +8,7 @@ import { ContactShadows } from "@react-three/drei";
 import RealTimeData from "./components/RealTimeData";
 import AccelerationArrow from "./components/AccelerationArrow";
 import WebRTCPlayer from "./components/WebRTCPlayer";
+import GlobalPositioningSystem from './components/GlobalPositioningSystem';
 
 function App() {
     return (
@@ -37,6 +38,9 @@ function App() {
                         </div>
                         <div className="cell">
                             <RealTimeData />
+                        </div>
+                        <div className="cell">
+                            <GlobalPositioningSystem/>
                         </div>
                     </div>
                 </div>
