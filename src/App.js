@@ -9,10 +9,12 @@ import RealTimeData from "./components/RealTimeData";
 import AccelerationArrow from "./components/AccelerationArrow";
 import WebRTCPlayer from "./components/WebRTCPlayer";
 import GlobalPositioningSystem from './components/GlobalPositioningSystem';
+import Preloader from './components/Preloader';
 
 function App() {
     return (
         <div className="App">
+            <Preloader/>
             <WebSocketProvider>
                 <div className="content">
                     <div className="data-cells">
