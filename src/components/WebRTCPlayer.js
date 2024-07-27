@@ -79,9 +79,30 @@ const WebRTCPlayer = () => {
         <div>
             {!stream && <button onClick={startPlaying}>Start</button>}
             {stream && <button onClick={stopPlaying}>Stop</button>}
-            {stream && <div style={{ width: '300px', height: '400px', borderWidth: '1px', borderColor: 'black', borderStyle: 'solid' }}>
-                <video ref={videoRef} autoPlay playsInline style={{ width: '100%', height: '100%' }} />
-            </div>}
+            {stream && (
+                <div style={{
+                    width: '100%',
+                    maxWidth: '600px',
+                    height: 'auto',
+                    maxHeight: '80vh',
+                    border: '1px solid black',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    overflow: 'hidden'
+                }}>
+                    <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        style={{
+                            width: '100%',
+                            height: 'auto',
+                            objectFit: 'contain' // Adjust to 'cover' if you want to cover the container
+                        }}
+                    />
+                </div>
+            )}
         </div>
     );
 };

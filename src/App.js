@@ -26,14 +26,14 @@ function App() {
                         </div>
                     </div>
                     <div className="canvas-container">
-                        <Canvas className="canvas" style={{height: '40vh'}}>
+                        <Canvas className="canvas">
                             <ambientLight intensity={0.5}/>
                             <directionalLight position={[10, 10, 5]}/>
                             <Satellite/>
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={3} opacity={0.1}/>
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={6} opacity={0.2} color="red"/>
                         </Canvas>
-                        <Canvas className="canvas" style={{height: '40vh', marginTop: '20px'}}>
+                        <Canvas className="canvas">
                             <ambientLight/>
                             <pointLight position={[10, 8, 5]}/>
                             <AccelerationArrow/>
