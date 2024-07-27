@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../App.css'; // Импортируйте CSS файл для стилей
+import React, {useEffect, useRef, useState} from 'react';
+import '../App.css';
 
 const REACT_APP_VIDEO_URL = process.env.REACT_APP_VIDEO_URL;
 
@@ -17,8 +17,8 @@ const WebRTCPlayer = () => {
             console.log(`event iceconnectionstatechange: ${JSON.stringify(event)}`);
         });
 
-        peerConnection.addTransceiver('audio', { direction: 'recvonly' });
-        peerConnection.addTransceiver('video', { direction: 'recvonly' });
+        peerConnection.addTransceiver('audio', {direction: 'recvonly'});
+        peerConnection.addTransceiver('video', {direction: 'recvonly'});
 
         const mediaStream = new MediaStream();
         peerConnection.addEventListener('track', event => {
@@ -34,7 +34,7 @@ const WebRTCPlayer = () => {
         const response = await fetch(
             REACT_APP_VIDEO_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/sdp' },
+                headers: {'Content-Type': 'application/sdp'},
                 body: offer.sdp,
             },
         );
@@ -47,7 +47,7 @@ const WebRTCPlayer = () => {
         console.log(`answer sdp: ${answerSDP}`);
 
         await peerConnection.setRemoteDescription(
-            new RTCSessionDescription({ type: 'answer', sdp: answerSDP })
+            new RTCSessionDescription({type: 'answer', sdp: answerSDP})
         );
         console.log(`set answer sdp ok`);
     }, [setStream, setPC]);

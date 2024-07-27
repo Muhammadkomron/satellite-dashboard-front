@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { Icon, LatLngBounds } from 'leaflet';
+import React, {useEffect, useState} from 'react';
+import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
+import {Icon, LatLngBounds} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 // Путь к вашей пользовательской иконке
@@ -53,7 +53,7 @@ const GlobalPositioningSystem = () => {
             <MapContainer
                 center={[latitude, longitude]}
                 zoom={6} // Масштаб для обзора всей Турции
-                style={{ height: "500px", width: "100%" }}
+                style={{height: "500px", width: "100%"}}
                 maxBounds={turkeyBounds} // Ограничение по границам
                 maxBoundsViscosity={1.0} // Доступность перемещения за границы
             >
@@ -63,7 +63,8 @@ const GlobalPositioningSystem = () => {
                 />
                 <Marker position={[latitude, longitude]} icon={customIcon}>
                     <Popup>
-                        Current Position<br />Lat: {latitude.toFixed(6)}, Lon: {longitude.toFixed(6)}<br />Altitude: {altitude} meters
+                        Current Position<br/>Lat: {latitude.toFixed(6)},
+                        Lon: {longitude.toFixed(6)}<br/>Altitude: {altitude} meters
                     </Popup>
                 </Marker>
             </MapContainer>

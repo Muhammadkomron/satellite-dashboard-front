@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useWebSocket } from '../contexts/WebSocketProvider';
+import React, {useEffect, useRef, useState} from 'react';
+import {useWebSocket} from '../contexts/WebSocketProvider';
 import '../App.css'; // Ensure you have this CSS file or update accordingly
 
 const numberToText = (number) => {
@@ -25,7 +25,7 @@ const formatDate = (date) => {
 };
 
 const RealTimeData = () => {
-    const { data, connected } = useWebSocket();
+    const {data, connected} = useWebSocket();
     const [status, setStatus] = useState('Error');
     const [alarmOn, setAlarmOn] = useState(true);
     const [currentTime, setCurrentTime] = useState(formatDate(new Date()));
@@ -89,7 +89,7 @@ const RealTimeData = () => {
                     <p><strong>Iteration:</strong> {data ? data.i : 'N/A'}</p>
                 </div>
             </div>
-            <audio ref={audioRef} src="/sounds/alert.mp3" preload="auto" />
+            <audio ref={audioRef} src="/sounds/alert.mp3" preload="auto"/>
             <button className={`alarm-toggle ${status === 'Error' ? 'blinking' : ''}`} onClick={toggleAlarm}>
                 {alarmOn ? 'Turn Off Alarm' : 'Turn On Alarm'}
             </button>

@@ -30,7 +30,7 @@ const AltitudeGraph = () => {
 
     return (
         <div className="altitude-graph-container">
-            <Line data={altitude} options={{ responsive: true, maintainAspectRatio: false }}/>
+            <Line data={altitude} options={{responsive: true, maintainAspectRatio: false}}/>
         </div>
     );
 };
