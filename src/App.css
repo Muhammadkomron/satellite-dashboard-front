@@ -59,7 +59,6 @@
 
 .video-cell {
   position: relative;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
 }
 
 .video-cell > video {
@@ -91,4 +90,61 @@
     height: 45vh !important;
     box-sizing: border-box;
   }
+}
+
+
+/* WebRTCPlayer.css */
+
+.webRTCContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.webRTCButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.startButton {
+  background-color: #28a745; /* Green */
+}
+
+.stopButton {
+  background-color: #dc3545; /* Red */
+}
+
+.webRTCButton:hover {
+  background-color: #155724; /* Darker green for start button */
+}
+
+.webRTCButton:active {
+  transform: scale(0.98);
+}
+
+.videoContainer {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  max-height: 80vh;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.videoElement {
+  width: 100%;
+  height: auto;
+  object-fit: contain; /* Adjust to 'cover' if needed */
 }

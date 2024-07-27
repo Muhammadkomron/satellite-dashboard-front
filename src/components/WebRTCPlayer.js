@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import '../App.css'; // Импортируйте CSS файл для стилей
 
 const REACT_APP_VIDEO_URL = process.env.REACT_APP_VIDEO_URL;
 
@@ -76,33 +77,19 @@ const WebRTCPlayer = () => {
     }, [stream]);
 
     return (
-        <div>
+        <div className="webRTCContainer">
+            {!stream && <button className="webRTCButton startButton" onClick={startPlaying}>Start</button>}
+            {stream && <button className="webRTCButton stopButton" onClick={stopPlaying}>Stop</button>}
             {stream && (
-                <div style={{
-                    width: '100%',
-                    maxWidth: '600px',
-                    height: 'auto',
-                    maxHeight: '80vh',
-                    border: '1px solid black',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    overflow: 'hidden'
-                }}>
+                <div className="videoContainer">
                     <video
                         ref={videoRef}
                         autoPlay
                         playsInline
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                            objectFit: 'contain' // Adjust to 'cover' if you want to cover the container
-                        }}
+                        className="videoElement"
                     />
                 </div>
             )}
-            {!stream && <button onClick={startPlaying}>Start</button>}
-            {stream && <button onClick={stopPlaying}>Stop</button>}
         </div>
     );
 };
