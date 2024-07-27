@@ -77,8 +77,6 @@ const WebRTCPlayer = () => {
 
     return (
         <div>
-            {!stream && <button onClick={startPlaying}>Start</button>}
-            {stream && <button onClick={stopPlaying}>Stop</button>}
             {stream && (
                 <div style={{
                     width: '100%',
@@ -103,6 +101,8 @@ const WebRTCPlayer = () => {
                     />
                 </div>
             )}
+            {!stream && <button onClick={startPlaying}>Start</button>}
+            {stream && <button onClick={stopPlaying}>Stop</button>}
         </div>
     );
 };
