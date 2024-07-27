@@ -157,6 +157,7 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .real-time-data h2 {
@@ -207,4 +208,41 @@
 
 .real-time-data-text-right {
   padding-left: 20px;
+}
+
+/* Button Styles */
+.alarm-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.alarm-toggle.blinking {
+  animation: blinking 1s infinite;
+}
+
+@keyframes blinking {
+  0% { background-color: #dc3545; }
+  50% { background-color: #f8d7da; }
+  100% { background-color: #dc3545; }
+}
+
+.alarm-toggle:not(.blinking) {
+  background-color: #28a745; /* Green for OK status */
+}
+
+.alarm-toggle:hover {
+  background-color: #155724; /* Darker green for start button */
+}
+
+.alarm-toggle:active {
+  transform: scale(0.98);
 }
