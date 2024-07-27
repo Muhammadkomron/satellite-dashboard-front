@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
 import {Icon, LatLngBounds} from 'leaflet';
+import "../App.css";
 import 'leaflet/dist/leaflet.css';
 
 // Путь к вашей пользовательской иконке
@@ -34,13 +35,13 @@ const GlobalPositioningSystem = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setPosition(getRandomCoordinates(turkeyBounds));
-        }, 1000); // Обновление позиции каждые 3 секунды
+        }, 1000);
 
         return () => clearInterval(interval);
     }, []);
 
     const [latitude, longitude] = position;
-    const altitude = Math.floor(Math.random() * 900); // Генерация случайной высоты
+    const altitude = Math.floor(Math.random() * 900);
 
     return (
         <div className="global-positioning-system">
@@ -52,10 +53,10 @@ const GlobalPositioningSystem = () => {
             </div>
             <MapContainer
                 center={[latitude, longitude]}
-                zoom={6} // Масштаб для обзора всей Турции
-                style={{height: "500px", width: "100%"}}
-                maxBounds={turkeyBounds} // Ограничение по границам
-                maxBoundsViscosity={1.0} // Доступность перемещения за границы
+                zoom={6}
+                style={{height: "250px", width: "100%"}}
+                maxBounds={turkeyBounds}
+                maxBoundsViscosity={1.0}
             >
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

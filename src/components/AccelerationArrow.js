@@ -42,7 +42,7 @@ const AccelerationArrow = () => {
                 length = -length;
             }
 
-            const direction = new THREE.Vector3(x / length, y / length, z / length).normalize();
+            const direction = new THREE.Vector3(x, y, z).normalize();
 
             arrowRef.current.position.set(0, 0, 0);
             arrowRef.current.lookAt(direction);
@@ -51,6 +51,13 @@ const AccelerationArrow = () => {
             arrowRef.current.children[0].position.set(0, length / 2, 0);
             arrowRef.current.children[0].scale.set(1, length / arrowLength, 1);
             arrowRef.current.children[1].position.set(0, length, 0);
+
+            // Adjust the cone rotation if the arrow is pointing downward
+            if (direction.y < 0) {
+                arrowRef.current.children[1].rotation.x = Math.PI;
+            } else {
+                arrowRef.current.children[1].rotation.x = 0;
+            }
 
             if (x < 0) {
                 setColor("red");

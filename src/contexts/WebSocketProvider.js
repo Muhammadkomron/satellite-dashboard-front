@@ -30,7 +30,6 @@ export const WebSocketProvider = ({children}) => {
         acceleration: {x: -5, y: 1, z: 10},
         latitude: 0,
         longitude: 0,
-
     });
 
     // Simulate WebSocket data with random values
@@ -50,8 +49,7 @@ export const WebSocketProvider = ({children}) => {
                 },
                 acceleration: {
                     x: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1),
-                    y: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? -1 : -1),
-                    // y: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1),
+                    y: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1), // Fixed line
                     z: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1)
                 },
                 latitude: (Math.random() * 180 - 90).toFixed(6), // Random latitude between -90 and 90
@@ -61,9 +59,12 @@ export const WebSocketProvider = ({children}) => {
 
         return () => clearInterval(interval);
     }, []);
-    return (<WebSocketContext.Provider value={{data}}>
-        {children}
-    </WebSocketContext.Provider>);
+
+    return (
+        <WebSocketContext.Provider value={{data}}>
+            {children}
+        </WebSocketContext.Provider>
+    );
 };
 
 export const useWebSocket = () => useContext(WebSocketContext);
