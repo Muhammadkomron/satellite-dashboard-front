@@ -7,12 +7,12 @@
   padding: 20px;
   box-sizing: border-box;
   height: 100vh; /* Make the App container full height */
-  overflow: hidden; /* Prevent scrolling */
 }
 
 .content {
   display: grid;
-  grid-template-columns: 2fr 2fr; /* Three columns with middle one larger */
+  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
+  grid-template-rows: auto; /* Rows will be as high as their content */
   grid-gap: 20px;
   width: 100%;
   height: 100%;
@@ -20,10 +20,10 @@
 }
 
 .data-cells {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  grid-column: 1 / 2; /* Place data cells in the first column */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+  grid-gap: 20px;
+  grid-column: 1 / 5; /* Span all four columns */
   height: 100%;
 }
 
@@ -31,15 +31,15 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  grid-column: 2 / 3; /* Place video cell in the third column */
+  grid-column: 1 / 5; /* Span all four columns */
   height: 100%;
 }
 
 .canvas-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  grid-column: 2 / 3; /* Place canvas in the middle column */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+  grid-gap: 20px;
+  grid-column: 1 / 5; /* Span all four columns */
 }
 
 .canvas {
@@ -47,7 +47,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #fff;
   width: 100%;
-  height: 50vh; /* Adjust height for better fit */
+  height: 100%; /* Make canvas fill its container */
   box-sizing: border-box;
 }
 
@@ -58,27 +58,39 @@
   box-sizing: border-box;
   padding: 20px;
   width: 100%;
+  height: 100%; /* Make cells fill their container */
 }
 
-
+.altitude-graph-container {
+  height: 54vh !important; /* Override default height */
+}
 
 @media (max-width: 768px) {
   .content {
     grid-template-columns: 1fr; /* Single column on small screens */
   }
 
-  .data-cells, .video-cell {
-    grid-column: 1 / 2;
+  .data-cells, .video-cell, .canvas-container {
+    grid-column: 1 / 2; /* Span the single column */
+  }
+
+  .canvas, .cell, .graph, .video-cell {
+    height: auto; /* Allow elements to adjust their height according to content */
+    width: 100%; /* Full width for mobile devices */
+  }
+  
+  /* Ensure content is stacked vertically */
+  .data-cells {
+    display: flex;
+    flex-direction: column;
   }
 
   .canvas-container {
-    grid-column: 1 / 2;
-  }
-
-  .canvas {
-    height: 45vh !important;
+    display: flex;
+    flex-direction: column;
   }
 }
+
 
 /* WebRTCPlayer.css */
 
@@ -119,9 +131,9 @@
 
 .videoContainer {
   width: 100%;
-  max-width: 600px;
+  max-width: 400px;
   height: auto;
-  max-height: 80vh;
+  max-height: 40vh;
   border: 2px solid black;
   display: flex;
   justify-content: center;
@@ -133,14 +145,65 @@
 .videoElement {
   width: 100%;
   height: auto;
-  object-fit: contain; /* Adjust to 'cover' if needed */
+  object-fit: contain; 
 }
 
-.real-time-data{
-  font-size: 14px;
+.real-time-data {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.real-time-data h1{
-  font-size: 20px;
+.real-time-data h2 {
+  font-size: 34px;
   font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.real-time-data-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.real-time-data-text-left,
+.real-time-data-text-right {
+  flex: 1;
+}
+
+.real-time-data-text p {
+  font-size: 19px;
+  margin: 5px 0;
+  color: #555;
+}
+
+.real-time-data-text-left p {
+  font-weight: bold;
+}
+
+.real-time-data-text-right p {
+  text-align: right;
+}
+
+.real-time-data-text-left p,
+.real-time-data-text-right p {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.real-time-data-text-left {
+  border-right: 1px solid #eee;
+  padding-right: 20px;
+}
+
+.real-time-data-text-right {
+  padding-left: 20px;
 }

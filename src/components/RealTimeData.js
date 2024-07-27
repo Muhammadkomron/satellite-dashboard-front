@@ -20,18 +20,19 @@ const RealTimeData = () => {
             <h2>Real-Time Data</h2>
             <div className="real-time-data-text">
                 <div className="real-time-data-text-left">
-                    <p>WebSocket Status: {connected ? 'Connected' : 'Disconnected'}</p>
-                    <p>Satellite Status: {numberToText(data.status)}</p>
-                    <p>Humidity: {data.humidity} %</p>
+                    <p><strong>WebSocket Status:</strong> {connected ? 'Connected' : 'Disconnected'}</p>
+                    <p><strong>Satellite Status:</strong> {numberToText(data.status)}</p>
+                    <p><strong>Humidity:</strong> {data.humidity} %</p>
                 </div>
                 <div className="real-time-data-text-right">
-                    <p>Temperature: {data.temperature} °C</p>
-                    <p>Voltage: {data.voltage} V</p>
-                    <p>Iteration: {data.i}</p>
+                    <p><strong>Temperature:</strong> {data.temperature} °C</p>
+                    <p><strong>Voltage:</strong> {data.voltage} V</p>
+                    <p><strong>Iteration:</strong> {data.i}</p>
                 </div>
             </div>
         </div>
     );
 };
+
 
 export default RealTimeData;

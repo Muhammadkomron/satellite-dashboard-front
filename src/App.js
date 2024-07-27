@@ -15,17 +15,11 @@ function App() {
             <WebSocketProvider>
                 <div className="content">
                     <div className="data-cells">
-                        <div className="cell">
-                            <RealTimeData />
-                        </div>
-                        <div className="cell graph">
-                            <AltitudeGraph />
-                        </div>
-                        <div className="video-cell">
-                            <WebRTCPlayer />
-                        </div>
-                    </div>
-                    <div className="canvas-container">
+                        <Canvas className="canvas">
+                            <ambientLight />
+                            <pointLight position={[10, 8, 5]} />
+                            <AccelerationArrow />
+                        </Canvas>
                         <Canvas className="canvas">
                             <ambientLight intensity={0.5} />
                             <directionalLight position={[10, 10, 5]} />
@@ -33,11 +27,17 @@ function App() {
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={3} opacity={0.1} />
                             <ContactShadows frames={1} position={[0, -3, 0]} blur={6} opacity={0.2} color="red" />
                         </Canvas>
-                        <Canvas className="canvas">
-                            <ambientLight />
-                            <pointLight position={[10, 8, 5]} />
-                            <AccelerationArrow />
-                        </Canvas>
+                        <div className="cell graph">
+                            <AltitudeGraph />
+                        </div>
+                    </div>
+                    <div className="canvas-container">
+                        <div className="cell">
+                            <WebRTCPlayer />
+                        </div>
+                        <div className="cell">
+                            <RealTimeData />
+                        </div>
                     </div>
                 </div>
             </WebSocketProvider>
