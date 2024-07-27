@@ -7,7 +7,7 @@ import './App.css';
 import {ContactShadows} from "@react-three/drei";
 import RealTimeData from "./components/RealTimeData";
 import AccelerationArrow from "./components/AccelerationArrow";
-import VideoPlayer from "./components/VideoPlayer";
+import WebRTCPlayer from "./components/WebRTCPlayer";
 
 function App() {
     return (
@@ -22,7 +22,7 @@ function App() {
                             <AltitudeGraph/>
                         </div>
                         <div className="video-cell">
-                            <VideoPlayer/>
+                            <WebRTCPlayer/>
                         </div>
                     </div>
                     <div className="canvas-container">
