@@ -49,7 +49,7 @@ const Preloader = ({ onLoadingComplete }) => {
     return (
         <div className="preloader">
             <div className="logo-container">
-                <img src="/icons/nazarx-transformed.png" alt="Logo" className="pulsing-logo"/>
+                <img src="/icons/NazarX New Black.png" alt="Logo" className="pulsing-logo"/>
             </div>
             <div className="console">
                 <div className="console-text">

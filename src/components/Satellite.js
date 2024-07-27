@@ -12,7 +12,7 @@ const Satellite = () => {
     const {camera, gl} = useThree();
 
     // Load the texture for the logo
-    const logoTexture = useLoader(TextureLoader, '/icons/nazarx.png');
+    const logoTexture = useLoader(TextureLoader, '/icons/NazarX New Black.png');
 
     useFrame(() => {
         if (ref.current) {
