@@ -20,11 +20,11 @@ function App() {
                 {loadingComplete ? (
                         <div className="content">
                             <div className="data-cells">
-                                <Canvas className="canvas">
-                                    <ambientLight/>
-                                    <pointLight position={[10, 8, 5]}/>
+                                <div className="canvas">
+                                    {/* <ambientLight/>
+                                    <pointLight position={[10, 8, 5]}/> */}
                                     <AccelerationArrow/>
-                                </Canvas>
+                                </div>
                                 <Canvas className="canvas">
                                     <ambientLight intensity={0.5}/>
                                     <directionalLight position={[10, 10, 5]}/>

@@ -1,124 +1,167 @@
-import React, {useRef, useState} from "react";
-import {Cone, Cylinder, OrbitControls, Text} from "@react-three/drei";
-import {useFrame, useThree} from "@react-three/fiber";
-import {useWebSocket} from "../contexts/WebSocketProvider";
-import * as THREE from "three";
+import React, { useState } from "react";
+import { Button, Modal, Input, Space } from "antd";
+import { Select } from "antd";
 
-function AxisSquare({rotation, color}) {
-    return (
-        <mesh position={[0, 0, 0]} scale={[0.5, 0.5, 0.5]} rotation={rotation}>
-            <boxGeometry attach="geometry" args={[10, 10, 0.05, 1]}/>
-            <meshBasicMaterial
-                attach="material"
-                color={color}
-                transparent
-                opacity={0.3}
-            />
-        </mesh>
-    );
-}
+const { Option } = Select;
 
 const AccelerationArrow = () => {
-    const {camera, gl} = useThree();
-    camera.position.set(3, 3, 7);
-    const {data} = useWebSocket();
-    const arrowRef = useRef();
-    const textRef = useRef();
-    const [color, setColor] = useState("blue");
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [modalText, setModalText] = useState(
+    "Are you sure you want to open parachute?"
+  );
 
-    const arrowLength = 0.1;
-    const arrowRadius = 0.4;
-    const coneHeight = 2;
-    const coneRadius = 0.8;
+  // Define the error states based on the conditions from the screenshot
+  const [containerLandingRateError, setContainerLandingRateError] = useState(false);
+  const [sciencePayloadLandingRateError, setSciencePayloadLandingRateError] = useState(false);
+  const [containerPressureDataFailure, setContainerPressureDataFailure] = useState(false);
+  const [sciencePayloadPositionDataFailure, setSciencePayloadPositionDataFailure] = useState(false);
+  const [releaseFailure, setReleaseFailure] = useState(false);
 
-    useFrame(() => {
-        if (arrowRef.current) {
-            const x = data.acceleration.x || 0;
-            const y = data.acceleration.y || 0;
-            const z = data.acceleration.z || 0;
+  const showModal = () => {
+    setOpen(true);
+  };
 
-            let length = Math.sqrt(x * x + y * y + z * z);
-            if (y < 0) {
-                length = -length;
-            }
+  const handleOk = () => {
+    setModalText("The alert modal will be closed after two seconds");
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
 
-            const direction = new THREE.Vector3(x, y, z).normalize();
+  const handleCancel = () => {
+    console.log("Clicked cancel button");
+    setOpen(false);
+  };
 
-            arrowRef.current.position.set(0, 0, 0);
-            arrowRef.current.lookAt(direction);
-            arrowRef.current.rotation.setFromVector3(direction);
 
-            arrowRef.current.children[0].position.set(0, length / 2, 0);
-            arrowRef.current.children[0].scale.set(1, length / arrowLength, 1);
-            arrowRef.current.children[1].position.set(0, length, 0);
+  const errorStates = [
+    { squares: [true, true, true, true, true], errorCode: "<00000>", description: "Errorless Flight Status" },
+    { squares: [true, true, true, true, false], errorCode: "<00001>", description: "Minor Science Payload anomaly detected" },
+    { squares: [true, true, true, false, true], errorCode: "<00010>", description: "Minor release mechanism anomaly detected" },
+    { squares: [true, true, true, false, false], errorCode: "<00011>", description: "Science Payload and release mechanism anomalies detected" },
+    { squares: [true, true, false, true, true], errorCode: "<00100>", description: "Container descent rate deviation detected" },
+    { squares: [true, true, false, true, false], errorCode: "<00101>", description: "Container descent rate deviation and Science Payload anomaly detected" },
+    { squares: [true, true, false, false, true], errorCode: "<00110>", description: "Container descent rate deviation and release mechanism anomaly detected" },
+    { squares: [true, true, false, false, false], errorCode: "<00111>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
+    { squares: [true, false, true, true, true], errorCode: "<01000>", description: "Container release mechanism anomaly detected" },
+    { squares: [true, false, true, true, false], errorCode: "<01001>", description: "Container release mechanism and Science Payload anomalies detected" },
+    { squares: [true, false, true, false, true], errorCode: "<01010>", description: "Container release mechanism and descent rate anomalies detected" },
+    { squares: [true, false, true, false, false], errorCode: "<01011>", description: "Container release mechanism, descent rate, and Science Payload anomalies detected" },
+    { squares: [true, false, false, true, true], errorCode: "<01100>", description: "Container descent rate and release mechanism anomalies detected" },
+    { squares: [true, false, false, true, false], errorCode: "<01101>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
+    { squares: [true, false, false, false, true], errorCode: "<01110>", description: "Container descent rate and Science Payload position failure detected" },
+    { squares: [true, false, false, false, false], errorCode: "<01111>", description: "Container descent rate, Science Payload position failure, and release mechanism anomalies detected" },
+    { squares: [false, true, true, true, true], errorCode: "<10000>", description: "Science Payload position failure detected" },
+    { squares: [false, true, true, true, false], errorCode: "<10001>", description: "Science Payload position failure and anomaly detected" },
+    { squares: [false, true, true, false, true], errorCode: "<10010>", description: "Science Payload position failure and release mechanism anomaly detected" },
+    { squares: [false, true, true, false, false], errorCode: "<10011>", description: "Science Payload position failure, release mechanism, and anomaly detected" },
+    { squares: [false, true, false, true, true], errorCode: "<10100>", description: "Science Payload position failure and descent rate deviation detected" },
+    { squares: [false, true, false, true, false], errorCode: "<10101>", description: "Science Payload position failure, descent rate deviation, and anomaly detected" },
+    { squares: [false, true, false, false, true], errorCode: "<10110>", description: "Science Payload position failure, descent rate deviation, and release mechanism anomaly detected" },
+    { squares: [false, true, false, false, false], errorCode: "<10111>", description: "Science Payload position failure, descent rate, release mechanism, and anomaly detected" },
+    { squares: [false, false, true, true, true], errorCode: "<11000>", description: "Science Payload position and container release failure detected" },
+    { squares: [false, false, true, true, false], errorCode: "<11001>", description: "Science Payload position and container release failure with anomaly detected" },
+    { squares: [false, false, true, false, true], errorCode: "<11010>", description: "Science Payload position, container release, and descent rate failure detected" },
+    { squares: [false, false, true, false, false], errorCode: "<11011>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
+    { squares: [false, false, false, true, true], errorCode: "<11100>", description: "Science Payload position, container release, and descent rate failure detected" },
+    { squares: [false, false, false, true, false], errorCode: "<11101>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
+    { squares: [false, false, false, false, true], errorCode: "<11110>", description: "Science Payload position, container release, descent rate, and full anomaly detected" },
+    { squares: [false, false, false, false, false], errorCode: "<11111>", description: "Total system failure detected" }
+  ];
 
-            // Adjust the cone rotation if the arrow is pointing downward
-            if (direction.y < 0) {
-                arrowRef.current.children[1].rotation.x = Math.PI;
-            } else {
-                arrowRef.current.children[1].rotation.x = 0;
-            }
+  const [selectedState, setSelectedState] = useState(errorStates[0]);
 
-            if (x < 0) {
-                setColor("red");
-            } else {
-                setColor("blue");
-            }
-        }
+  const handleChange = (value) => {
+    setSelectedState(errorStates[value]);
+  };
 
-        if (textRef.current) {
-            textRef.current.quaternion.copy(camera.quaternion);
-        }
-    });
 
-    return (
-        <>
-            <mesh position={[0, 0, 0]} scale={[0.2, 0.2, 0.2]}>
-                <sphereGeometry attach="geometry" args={[1, 32, 16]}/>
-                <meshStandardMaterial
-                    attach="material"
-                    color={color}
-                    transparent
-                    opacity={0.3}
-                />
-                <group ref={arrowRef}>
-                    <Cylinder
-                        args={[arrowRadius, arrowRadius, arrowLength, 32]}
-                        position={[0, arrowLength / 2, 0]}
-                    >
-                        <meshStandardMaterial attach="material" color={color}/>
-                    </Cylinder>
-                    <Cone
-                        args={[coneRadius, coneHeight, 32]}
-                        position={[0, arrowLength, 0]}
-                    >
-                        <meshStandardMaterial attach="material" color={color}/>
-                    </Cone>
-                </group>
-            </mesh>
-            <AxisSquare rotation={[Math.PI / 2, 0, Math.PI / 2]} color="red"/>
-            <AxisSquare rotation={[0, Math.PI, Math.PI]} color="green"/>
-            <AxisSquare rotation={[0, Math.PI / 2, Math.PI / 2]} color="blue"/>
-            <Text
-                ref={textRef}
-                fontSize={0.7}
-                color="black"
-                anchorX="left"
-                anchorY="top"
-                position={[-8, 5.5, 0]} // Adjust position to place the text in the corner
-            >
-                {`x: ${(data.acceleration.x || 0).toFixed(2)}, y: ${(
-                    data.acceleration.y || 0
-                ).toFixed(2)}, z: ${(data.acceleration.z || 0).toFixed(2)}`}
-            </Text>
-            <OrbitControls
-                enableZoom={false}
-                enablePan={false}
-                enableRotate={false}
-                args={[camera, gl.domElement]}
-            />
-        </>
-    );
+  return (
+    <>
+      <div className="parachute">
+        {/* Conditionally render error messages or apply styles based on error states */}
+        <div className="error-states">
+          {containerLandingRateError && (
+            <p style={{ color: "red" }}>Error: Container Landing Rate Out of Range</p>
+          )}
+          {sciencePayloadLandingRateError && (
+            <p style={{ color: "red" }}>Error: Science Payload Landing Rate Out of Range</p>
+          )}
+          {containerPressureDataFailure && (
+            <p style={{ color: "red" }}>Error: Container Pressure Data Failure</p>
+          )}
+          {sciencePayloadPositionDataFailure && (
+            <p style={{ color: "red" }}>Error: Science Payload Position Data Failure</p>
+          )}
+          {releaseFailure && (
+            <p style={{ color: "red" }}>Error: Release Failure</p>
+          )}
+        </div>
+
+        <div className="object">
+          <Button type="primary" onClick={showModal}>
+            Open Parachute
+          </Button>
+          <Modal
+            title="Title"
+            open={open}
+            onOk={handleOk}
+            confirmLoading={confirmLoading}
+            onCancel={handleCancel}
+            okText="OPEN PARACHUTE"
+            cancelText="CANCEL"
+          >
+            <p>{modalText}</p>
+          </Modal>
+        </div>
+
+        <div className="object">
+          <Space.Compact
+            style={{
+              width: "100%",
+            }}
+          >
+            <Input defaultValue="6G4R" />
+            <Button type="primary">SEND</Button>
+          </Space.Compact>
+        </div>
+
+        <div style={{ padding: "20px", textAlign: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+        {selectedState.squares.map((status, index) => (
+          <div
+            key={index}
+            style={{
+              width: "50px",
+              height: "50px",
+              backgroundColor: status ? "green" : "red",
+              margin: "0 5px",
+            }}
+          />
+        ))}
+      </div>
+      <div>
+        <h3>ERROR CODE: {selectedState.errorCode}</h3>
+        <p>{selectedState.description}</p>
+      </div>
+      <div>
+        <Select defaultValue="0" style={{ width: 300 }} onChange={handleChange}>
+          {errorStates.map((state, index) => (
+            <Option key={index} value={index}>
+              State {index + 1}: {state.errorCode}
+            </Option>
+          ))}
+        </Select>
+      </div>
+    </div>
+      </div>
+
+
+    </>
+  );
 };
 
 export default AccelerationArrow;

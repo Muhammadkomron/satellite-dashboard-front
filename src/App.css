@@ -330,3 +330,12 @@
   font-size: 16px; /* Adjust size as needed */
   color: rgb(0, 91, 0); /* Green text color */
 }
+
+
+.parachute{
+  padding: 10px;
+}
+
+.object{
+  margin: 10px;
+}
