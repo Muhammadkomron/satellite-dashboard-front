@@ -29,7 +29,7 @@ export const WebSocketProvider = ({ children }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:5555');
+                const response = await fetch('http://localhost:8000');
                 const jsonData = await response.json();
                 setData({
                     packet_number: jsonData.packet_number,
