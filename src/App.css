@@ -1,341 +1,78 @@
-.App {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #f0f0f0;
-  padding: 20px;
-  box-sizing: border-box;
-  height: 100% !important; /* Make the App container full height */
-}
-
-.content {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four equal columns */
-  grid-template-rows: auto; /* Rows will be as high as their content */
-  grid-gap: 20px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-}
-
-.data-cells {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Three equal columns */
-  grid-gap: 20px;
-  grid-column: 1 / 5; /* Span all four columns */
-  height: 100%;
-}
-
-.video-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  grid-column: 1 / 5; /* Span all four columns */
-  height: 100%;
-}
-
-.canvas-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Two equal columns */
-  grid-gap: 20px;
-  grid-column: 1 / 5; /* Span all four columns */
-  height: 47vh;
-}
-
-.canvas {
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  width: 100%;
-  height: 47vh !important; /* Make canvas fill its container */
-  box-sizing: border-box;
-}
-
-.cell, .graph, .video-cell {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  padding: 20px;
-  width: 100%;
-  height: 100%; /* Make cells fill their container */
-}
-
-.altitude-graph-container {
-  height: 42vh !important; /* Override default height */
-}
-
-@media (max-width: 768px) {
-  .content {
-    grid-template-columns: 1fr; /* Single column on small screens */
-  }
-
-  .data-cells, .video-cell, .canvas-container {
-    grid-column: 1 / 2; /* Span the single column */
-  }
-
-  .canvas, .cell, .graph, .video-cell {
-    height: auto; /* Allow elements to adjust their height according to content */
-    width: 100%; /* Full width for mobile devices */
-  }
-  
-  /* Ensure content is stacked vertically */
-  .data-cells {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .canvas-container {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-
-/* WebRTCPlayer.css */
-
-.webRTCContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-}
-
-.webRTCButton {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.startButton {
-  background-color: #28a745; /* Green */
-}
-
-.stopButton {
-  background-color: #dc3545; /* Red */
-}
-
-.webRTCButton:hover {
-  background-color: #155724; /* Darker green for start button */
-}
-
-.webRTCButton:active {
-  transform: scale(0.98);
-}
-
-.videoContainer {
-  width: 100%;
-  max-width: 400px;
-  height: auto;
-  max-height: 40vh;
-  border: 2px solid black;
+.app-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  height: 100vh;
+  background-color: #000; /* Черный фон */
+}
+
+.main-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  gap: 10px;
+  padding: 10px;
+  box-sizing: border-box;
   border-radius: 8px;
 }
 
-.videoElement {
-  width: 100%;
-  height: auto;
-  object-fit: contain; 
-}
-
-.real-time-data {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.real-time-data h2 {
-  font-size: 29px;
-  font-weight: bold;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.real-time-data-text {
+.graphs {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  grid-column: 1 / span 3;
+  grid-row: 1;
+  gap: 10px;
 }
 
-.real-time-data-text-left,
-.real-time-data-text-right {
+.graphs > * {
   flex: 1;
+  border: 2px solid white;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: #222; /* Темный фон для графиков */
+  border-radius: 8px;
+
 }
 
-.real-time-data-text p {
-  font-size: 19px;
-  margin: 5px 0;
-  color: #555;
-}
-
-.real-time-data-text-left p {
-  font-weight: bold;
-}
-
-.real-time-data-text-right p {
-  text-align: right;
-}
-
-.real-time-data-text-left p,
-.real-time-data-text-right p {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.real-time-data-text-left {
-  border-right: 1px solid #eee;
-  padding-right: 20px;
-}
-
-.real-time-data-text-right {
-  padding-left: 20px;
-}
-
-/* Button Styles */
-.alarm-toggle {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-
-.alarm-toggle.blinking {
-  animation: blinking 1s infinite;
-}
-
-@keyframes blinking {
-  0% { background-color: #dc3545; }
-  50% { background-color: #f8d7da; }
-  100% { background-color: #dc3545; }
-}
-
-.alarm-toggle:not(.blinking) {
-  background-color: #28a745; /* Green for OK status */
-}
-
-.alarm-toggle:hover {
-  background-color: #155724; /* Darker green for start button */
-}
-
-.alarm-toggle:active {
-  transform: scale(0.98);
-}
-
-
-/* Other existing styles */
-
-.real-time-data p {
-  margin: 10px 0;
-}
-
-.real-time-data .date-time {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.coordinates p {
-  font-size: 12px;
-}
-
-
-
-
-/* App.css or Preloader.css */
-
-.preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(255, 255, 255); /* Transparent background */
+.side-panel {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: rgb(0, 44, 0); /* Green text to mimic terminal appearance */
-  font-family: 'Courier New', Courier, monospace;
-  z-index: 9999; /* Make sure it's on top of everything */
-  overflow: hidden;
+  justify-content: space-between;
+  gap: 10px;
 
 }
 
-.logo-container {
-  margin-bottom: 20px; /* Space between logo and text */
+.side-panel.left {
+  grid-column: 1;
+  grid-row: 2;
 }
 
-.pulsing-logo {
-  width: 250px; /* Adjust size as needed */
-  height: auto;
-  animation: pulse 1s infinite; /* Faster pulse animation */
+.side-panel.right {
+  grid-column: 3;
+  grid-row: 2;
 }
 
-@keyframes pulse {
-  0% {
-      transform: scale(1);
-      opacity: 1;
-  }
-  50% {
-      transform: scale(1.1);
-      opacity: 0.7;
-  }
-  100% {
-      transform: scale(1);
-      opacity: 1;
-  }
-}
-
-.console {
-  position: absolute;
-  bottom: 20px; /* Adjust the distance from the bottom */
-  left: 20px; /* Adjust the distance from the left */
-  width: auto; /* Adjust to fit content */
-  max-width: 80%; /* Adjust width if needed */
-  background-color: rgba(0, 0, 0, 0); /* Transparent background */
-  border: none; /* Remove border */
-  padding: 0; /* Remove padding */
-  box-shadow: none; /* Remove shadow */
-  overflow: hidden; /* Hide overflow for typing effect */
-}
-
-.console-text {
-  white-space: pre-wrap; /* Preserve spacing and line breaks */
-  font-size: 16px; /* Adjust size as needed */
-  color: rgb(0, 91, 0); /* Green text color */
-}
-
-
-.parachute{
+.side-panel > * {
+  flex: 1;
+  border: 2px solid white;
   padding: 10px;
+  box-sizing: border-box;
+  background-color: #222;
+  border-radius: 8px;
+
 }
 
-.object{
-  margin: 10px;
+.main-content > WebRTCPlayer {
+  grid-column: 2;
+  grid-row: 2;
+  border: 2px solid white;
+  background-color: #222;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+
 }
