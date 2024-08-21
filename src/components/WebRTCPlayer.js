@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../App.css';
 
 const REACT_APP_VIDEO_URL = process.env.REACT_APP_VIDEO_URL;
@@ -17,8 +17,8 @@ const WebRTCPlayer = () => {
             console.log(`event iceconnectionstatechange: ${JSON.stringify(event)}`);
         });
 
-        peerConnection.addTransceiver('audio', {direction: 'recvonly'});
-        peerConnection.addTransceiver('video', {direction: 'recvonly'});
+        peerConnection.addTransceiver('audio', { direction: 'recvonly' });
+        peerConnection.addTransceiver('video', { direction: 'recvonly' });
 
         const mediaStream = new MediaStream();
         peerConnection.addEventListener('track', event => {
@@ -34,9 +34,9 @@ const WebRTCPlayer = () => {
         const response = await fetch(
             REACT_APP_VIDEO_URL, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/sdp'},
+                headers: { 'Content-Type': 'application/sdp' },
                 body: offer.sdp,
-            },
+            }
         );
         if (!response.ok) {
             console.error(`failed to fetch: ${response.status} ${response.statusText}`);
@@ -47,7 +47,7 @@ const WebRTCPlayer = () => {
         console.log(`answer sdp: ${answerSDP}`);
 
         await peerConnection.setRemoteDescription(
-            new RTCSessionDescription({type: 'answer', sdp: answerSDP})
+            new RTCSessionDescription({ type: 'answer', sdp: answerSDP })
         );
         console.log(`set answer sdp ok`);
     }, [setStream, setPC]);
@@ -80,16 +80,14 @@ const WebRTCPlayer = () => {
         <div className="webRTCContainer">
             {!stream && <button className="webRTCButton startButton" onClick={startPlaying}>Start</button>}
             {stream && <button className="webRTCButton stopButton" onClick={stopPlaying}>Stop</button>}
-            {stream && (
-                <div className="videoContainer">
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        playsInline
-                        className="videoElement"
-                    />
-                </div>
-            )}
+            <div className="videoContainer">
+                <video
+                    ref={videoRef}
+                    autoPlay
+                    playsInline
+                    className="videoElement"
+                />
+            </div>
         </div>
     );
 };

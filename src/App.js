@@ -9,8 +9,10 @@ import BodyOrientationYGraph from './components/BodyOrientationYGraph';
 import BodyOrientationZGraph from './components/BodyOrientationZGraph';
 import GlobalPositioningSystem from './components/GlobalPositioningSystem';
 import RawTelemetryGraph from './components/RawTelemetryGraph';
+import AccelerationArrow from './components/AccelerationArrow';
 
 import './App.css'; // Импортируем CSS файл
+import RealTimeData from './components/RealTimeData';
 
 function App() {
     return (
@@ -31,6 +33,8 @@ function App() {
                 <WebRTCPlayer />
                 <div className="side-panel right">
                     <ThrottleGraph />
+                    <AccelerationArrow/>
+                    <RealTimeData/>
                 </div>
             </div>
         </div>

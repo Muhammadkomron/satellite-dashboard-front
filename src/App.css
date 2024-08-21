@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 135vh;
   background-color: #000; /* Черный фон */
+  color: white;
 }
 
 .main-content {
@@ -76,3 +77,79 @@
   border-radius: 8px;
 
 }
+
+
+.real-time-data-text{
+  font-size: 13px;
+}
+
+/* Add this to your CSS file */
+
+.graph-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.global-positioning-system{
+  font-size: 14px;
+}
+
+
+.webRTCContainer {
+  border: 2px solid #ffffff; /* Add border to define the component boundaries */
+  padding: 10px;
+  position: relative;
+  width: 97%; /* Adjust width as needed */
+  height: 97%; /* Adjust height as needed */
+  border-radius: 12px;
+}
+
+.videoContainer {
+  position: relative;
+  width: 95%;
+  height: 95%;
+  overflow: hidden; /* Ensure that video does not overflow */
+}
+
+.videoElement {
+  width: 95%; /* Scale video to fit the width of the container */
+  height: 95%; /* Scale video to fit the height of the container */
+  object-fit: cover; /* Ensure video covers the container without distortion */
+}
+
+
+
+/* Button styling */
+.webRTCButton {
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.startButton {
+  background-color: #4CAF50; /* Green */
+}
+
+.startButton:hover {
+  background-color: #45a049; /* Darker green */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+.stopButton {
+  background-color: #f44336; /* Red */
+}
+
+.stopButton:hover {
+  background-color: #e53935; /* Darker red */
+  transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+

@@ -1,13 +1,46 @@
-// components/BodyOrientationYGraph.js
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { useWebSocket } from "../contexts/WebSocketProvider";
+import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
+import "../App.css";
+
 
 const BodyOrientationYGraph = () => {
-    return (
-        <div>
-            <h3>Body Orientation Y Graph</h3>
-            <p>Здесь будет график для ориентации тела по оси Y.</p>
-        </div>
-    );
+  ChartJS.register(CategoryScale);
+  const { data } = useWebSocket() || {}; // Default to an empty object if undefined
+  const [orientationYData, setOrientationYData] = useState({
+    labels: [0],
+    datasets: [
+      { label: "Roll", data: [0], fill: false, borderColor: "blue" },
+    ],
+  });
+
+  useEffect(() => {
+    if (data && data.roll !== undefined) { // Check if data and data.roll exist
+      const newLabel = new Date().toLocaleTimeString();
+      setOrientationYData((prevData) => {
+        const updatedLabels = [...prevData.labels.slice(-6), newLabel];
+        const updatedRoll = [...prevData.datasets[0].data.slice(-6), data.roll];
+
+        return {
+          labels: updatedLabels,
+          datasets: [
+            { ...prevData.datasets[0], data: updatedRoll },
+          ],
+        };
+      });
+    }
+  }, [data]);
+
+  return (
+    <div className="orientation-y-graph-container">
+      {/* <p className="graph-title">Body Orientation Y Graph</p> */}
+      <Line
+        data={orientationYData}
+        options={{ responsive: true, maintainAspectRatio: false }}
+      />
+    </div>
+  );
 };
 
 export default BodyOrientationYGraph;

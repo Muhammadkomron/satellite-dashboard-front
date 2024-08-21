@@ -8,7 +8,7 @@ import { TextureLoader } from 'three';
 const Satellite = () => {
     const ref = useRef();
     const textRef = useRef();
-    const { data } = useWebSocket();
+    const { data } = useWebSocket()  || {};
     const { camera, gl } = useThree();
 
     const logoTexture = useLoader(TextureLoader, '/icons/NazarX New Black.png');

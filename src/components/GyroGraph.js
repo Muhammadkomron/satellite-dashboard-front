@@ -1,12 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import { useWebSocket } from "../contexts/WebSocketProvider";
+import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
+import "../App.css";
+
 
 const GyroGraph = () => {
-    return (
-        <div>
-            <h3>Gyro Graph</h3>
-            <p>Здесь будет график для данных гироскопа.</p>
-        </div>
-    );
+  ChartJS.register(CategoryScale);
+  const { data } = useWebSocket() || {}; // Default to an empty object if undefined
+  const [gyroData, setGyroData] = useState({
+    labels: [0],
+    datasets: [
+      { label: "Yaw", data: [0], fill: false, borderColor: "red" },
+      { label: "Pitch", data: [0], fill: false, borderColor: "green" },
+      { label: "Roll", data: [0], fill: false, borderColor: "blue" },
+    ],
+  });
+
+  useEffect(() => {
+    if (data && data.gyro) { // Check if data and data.gyro exist
+      const newLabel = new Date().toLocaleTimeString();
+      setGyroData((prevData) => {
+        const updatedLabels = [...prevData.labels.slice(-6), newLabel];
+        const updatedYaw = [...prevData.datasets[0].data.slice(-6), data.gyro.yaw];
+        const updatedPitch = [...prevData.datasets[1].data.slice(-6), data.gyro.pitch];
+        const updatedRoll = [...prevData.datasets[2].data.slice(-6), data.gyro.roll];
+
+        return {
+          labels: updatedLabels,
+          datasets: [
+            { ...prevData.datasets[0], data: updatedYaw },
+            { ...prevData.datasets[1], data: updatedPitch },
+            { ...prevData.datasets[2], data: updatedRoll },
+          ],
+        };
+      });
+    }
+  }, [data]);
+
+  return (
+    <div className="gyro-graph-container">
+      {/* <p className="graph-title">Gyro Graph</p> */}
+      <Line
+        data={gyroData}
+        options={{ responsive: true, maintainAspectRatio: false }}
+      />
+    </div>
+  );
 };
 
 export default GyroGraph;

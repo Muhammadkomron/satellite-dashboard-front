@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet';
-import {Icon, LatLngBounds} from 'leaflet';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Icon, LatLngBounds } from 'leaflet';
 import "../App.css";
 import 'leaflet/dist/leaflet.css';
+import { useWebSocket } from '../contexts/WebSocketProvider'; // Assuming you have a WebSocket context
 
 // Путь к вашей пользовательской иконке
 const customIcon = new Icon({
@@ -18,30 +19,23 @@ const turkeyBounds = new LatLngBounds(
     [42.1, 44.8]   // Северо-западный угол
 );
 
-// Функция для генерации случайных координат в пределах границ
-const getRandomCoordinates = (bounds) => {
-    const latMin = bounds.getSouthWest().lat;
-    const latMax = bounds.getNorthEast().lat;
-    const lngMin = bounds.getSouthWest().lng;
-    const lngMax = bounds.getNorthEast().lng;
-    const lat = latMin + Math.random() * (latMax - latMin);
-    const lng = lngMin + Math.random() * (lngMax - lngMin);
-    return [lat, lng];
-};
-
 const GlobalPositioningSystem = () => {
-    const [position, setPosition] = useState(getRandomCoordinates(turkeyBounds));
+    const [position, setPosition] = useState([35.813, 25.0]); // Initial position can be outside bounds for better visibility
+    const [altitude, setAltitude] = useState(0);
+
+    const { data } = useWebSocket() || {}; // Assuming data contains latitude, longitude, and altitude
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setPosition(getRandomCoordinates(turkeyBounds));
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
+        if (data) {
+            const { latitude, longitude, altitude } = data;
+            if (latitude && longitude) {
+                setPosition([latitude, longitude]);
+                setAltitude(altitude || 0); // Fallback to 0 if altitude is not available
+            }
+        }
+    }, [data]);
 
     const [latitude, longitude] = position;
-    const altitude = Math.floor(Math.random() * 900);
 
     return (
         <div className="global-positioning-system">
@@ -54,7 +48,7 @@ const GlobalPositioningSystem = () => {
             <MapContainer
                 center={[latitude, longitude]}
                 zoom={6}
-                style={{height: "250px", width: "100%"}}
+                style={{ height: "250px", width: "100%" }}
                 maxBounds={turkeyBounds}
                 maxBoundsViscosity={1.0}
             >
@@ -64,8 +58,8 @@ const GlobalPositioningSystem = () => {
                 />
                 <Marker position={[latitude, longitude]} icon={customIcon}>
                     <Popup>
-                        Current Position<br/>Lat: {latitude.toFixed(6)},
-                        Lon: {longitude.toFixed(6)}<br/>Altitude: {altitude} meters
+                        Current Position<br />Lat: {latitude.toFixed(6)},
+                        Lon: {longitude.toFixed(6)}<br />Altitude: {altitude} meters
                     </Popup>
                 </Marker>
             </MapContainer>

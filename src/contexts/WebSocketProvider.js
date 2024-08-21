@@ -1,85 +1,69 @@
-import React, {createContext, useContext, useEffect, useState} from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-const defaultWebSocketContext = {
-    data: {
-        i: 0,
-        status: -1,
-        altitude: 0,
-        temperature: 0,
-        pressure: 0,
-        humidity: 0,
-        voltage: 0,
-        gyro: {yaw: 0, pitch: 0, roll: 0},
-        acceleration: {x: -5, y: 1, z: 10},
-        gps: {altitude: 0, latitude: 0, longitude: 0},
-        error: {
-            container_landing_rate: false,
-            science_payload_landing_rate: false,
-            container_pressure_data: false,
-            science_payload_position: false,
-            release: false
-        },
-    },
-    connected: false,
-};
+const WebSocketContext = createContext();
 
-const WebSocketContext = createContext(defaultWebSocketContext);
-
-export const WebSocketProvider = ({children}) => {
+export const WebSocketProvider = ({ children }) => {
     const [data, setData] = useState({
-        i: 0,
-        status: -1,
-        altitude: 0,
-        temperature: 0,
-        pressure: 0,
-        humidity: 0,
-        voltage: 0,
-        gyro: {yaw: 0, pitch: 0, roll: 0},
-        acceleration: {x: 0, y: 0, z: 0},
-        gps: {altitude: 0, latitude: 0, longitude: 0},
-        error: {
-            container_landing_rate: false,
-            science_payload_landing_rate: false,
-            container_pressure_data: false,
-            science_payload_position: false,
-            release: false
-        },
+        packet_number: "",
+        sattelite_status: "",
+        error_code: "",
+        missiontime: "",
+        pressure1: 0,
+        pressure2: 0,
+        altitude1: 0,
+        altitude2: 0,
+        altitude_difference: 0,
+        descent_rate: 0,
+        temp: 0,
+        battery_voltage: 0,
+        gps_altitude: 0,
+        gps_longitude: 0,
+        pitch: 0,
+        roll: 0,
+        yaw: 0,
+        lnln: "",
+        iot_data: 0,
+        team_number: "",
     });
 
-    // Simulate WebSocket data with random values
     useEffect(() => {
-        const interval = setInterval(() => {
-            setData(prevData => ({
-                ...prevData,
-                i: prevData.i + 1,
-                altitude: Math.floor(Math.random() * 900),
-                temperature: Math.floor(Math.random() * 30),
-                pressure: Math.floor(Math.random() * 30),
-                humidity: Math.floor(Math.random() * 100),
-                voltage: Math.floor(Math.random() * 12),
-                gyro: {
-                    yaw: Math.ceil(Math.random() * 70) * (Math.round(Math.random()) ? 1 : -1),
-                    pitch: Math.ceil(Math.random() * 70) * (Math.round(Math.random()) ? 1 : -1),
-                    roll: Math.ceil(Math.random() * 70) * (Math.round(Math.random()) ? 1 : -1)
-                },
-                acceleration: {
-                    x: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1),
-                    y: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1), // Fixed line
-                    z: Math.ceil(Math.random() * 20) * (Math.round(Math.random()) ? 1 : -1)
-                },
-                gps: {
-                    altitude: Math.floor(Math.random() * 900),
-                    latitude: (Math.random() * 180 - 90).toFixed(6), // Random latitude between -90 and 90
-                    longitude: (Math.random() * 360 - 180).toFixed(6), // Random longitude between -180 and 180
-                },
-            }));
-        }, 1000);
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:5555');
+                const jsonData = await response.json();
+                setData({
+                    packet_number: jsonData.packet_number,
+                    sattelite_status: jsonData.sattelite_status,
+                    error_code: jsonData.error_code,
+                    missiontime: jsonData.missiontime,
+                    pressure1: parseFloat(jsonData.pressure1),
+                    pressure2: parseFloat(jsonData.pressure2),
+                    altitude1: parseFloat(jsonData.altitude1),
+                    altitude2: parseFloat(jsonData.altitude2),
+                    altitude_difference: parseFloat(jsonData.altitude_difference),
+                    descent_rate: parseFloat(jsonData.desent_rate),
+                    temp: parseFloat(jsonData.temp),
+                    battery_voltage: parseFloat(jsonData.battery_voltage),
+                    gps_altitude: parseFloat(jsonData.gps_altitude),
+                    gps_longitude: parseFloat(jsonData.gps_longitude),
+                    pitch: parseFloat(jsonData.pitch),
+                    roll: parseFloat(jsonData.roll),
+                    yaw: parseFloat(jsonData.yaw),
+                    lnln: jsonData.lnln,
+                    iot_data: parseFloat(jsonData.iot_data),
+                    team_number: jsonData.team_number,
+                });
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
 
+        const interval = setInterval(fetchData, 1000);
         return () => clearInterval(interval);
     }, []);
 
     return (
-        <WebSocketContext.Provider value={{data}}>
+        <WebSocketContext.Provider value={{ data }}>
             {children}
         </WebSocketContext.Provider>
     );
