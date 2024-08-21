@@ -4,7 +4,6 @@ import { useWebSocket } from "../contexts/WebSocketProvider";
 import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
 import "../App.css";
 
-
 const GyroGraph = () => {
   ChartJS.register(CategoryScale);
   const { data } = useWebSocket() || {}; // Default to an empty object if undefined
@@ -18,13 +17,13 @@ const GyroGraph = () => {
   });
 
   useEffect(() => {
-    if (data && data.gyro) { // Check if data and data.gyro exist
+    if (data && typeof data.yaw !== "undefined" && typeof data.pitch !== "undefined" && typeof data.roll !== "undefined") {
       const newLabel = new Date().toLocaleTimeString();
       setGyroData((prevData) => {
         const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedYaw = [...prevData.datasets[0].data.slice(-6), data.gyro.yaw];
-        const updatedPitch = [...prevData.datasets[1].data.slice(-6), data.gyro.pitch];
-        const updatedRoll = [...prevData.datasets[2].data.slice(-6), data.gyro.roll];
+        const updatedYaw = [...prevData.datasets[0].data.slice(-6), data.yaw];
+        const updatedPitch = [...prevData.datasets[1].data.slice(-6), data.pitch];
+        const updatedRoll = [...prevData.datasets[2].data.slice(-6), data.roll];
 
         return {
           labels: updatedLabels,

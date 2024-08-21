@@ -15,40 +15,42 @@ const AccelerationArrow = () => {
 
   const [errorStates, setErrorStates] = useState([
     { squares: [true, true, true, true, true], errorCode: "<00000>", description: "Errorless Flight Status" },
-        { squares: [true, true, true, true, false], errorCode: "<00001>", description: "Minor Science Payload anomaly detected" },
-        { squares: [true, true, true, false, true], errorCode: "<00010>", description: "Minor release mechanism anomaly detected" },
-        { squares: [true, true, true, false, false], errorCode: "<00011>", description: "Science Payload and release mechanism anomalies detected" },
-        { squares: [true, true, false, true, true], errorCode: "<00100>", description: "Container descent rate deviation detected" },
-        { squares: [true, true, false, true, false], errorCode: "<00101>", description: "Container descent rate deviation and Science Payload anomaly detected" },
-        { squares: [true, true, false, false, true], errorCode: "<00110>", description: "Container descent rate deviation and release mechanism anomaly detected" },
-        { squares: [true, true, false, false, false], errorCode: "<00111>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
-        { squares: [true, false, true, true, true], errorCode: "<01000>", description: "Container release mechanism anomaly detected" },
-        { squares: [true, false, true, true, false], errorCode: "<01001>", description: "Container release mechanism and Science Payload anomalies detected" },
-        { squares: [true, false, true, false, true], errorCode: "<01010>", description: "Container release mechanism and descent rate anomalies detected" },
-        { squares: [true, false, true, false, false], errorCode: "<01011>", description: "Container release mechanism, descent rate, and Science Payload anomalies detected" },
-        { squares: [true, false, false, true, true], errorCode: "<01100>", description: "Container descent rate and release mechanism anomalies detected" },
-        { squares: [true, false, false, true, false], errorCode: "<01101>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
-        { squares: [true, false, false, false, true], errorCode: "<01110>", description: "Container descent rate and Science Payload position failure detected" },
-        { squares: [true, false, false, false, false], errorCode: "<01111>", description: "Container descent rate, Science Payload position failure, and release mechanism anomalies detected" },
-        { squares: [false, true, true, true, true], errorCode: "<10000>", description: "Science Payload position failure detected" },
-        { squares: [false, true, true, true, false], errorCode: "<10001>", description: "Science Payload position failure and anomaly detected" },
-        { squares: [false, true, true, false, true], errorCode: "<10010>", description: "Science Payload position failure and release mechanism anomaly detected" },
-        { squares: [false, true, true, false, false], errorCode: "<10011>", description: "Science Payload position failure, release mechanism, and anomaly detected" },
-        { squares: [false, true, false, true, true], errorCode: "<10100>", description: "Science Payload position failure and descent rate deviation detected" },
-        { squares: [false, true, false, true, false], errorCode: "<10101>", description: "Science Payload position failure, descent rate deviation, and anomaly detected" },
-        { squares: [false, true, false, false, true], errorCode: "<10110>", description: "Science Payload position failure, descent rate deviation, and release mechanism anomaly detected" },
-        { squares: [false, true, false, false, false], errorCode: "<10111>", description: "Science Payload position failure, descent rate, release mechanism, and anomaly detected" },
-        { squares: [false, false, true, true, true], errorCode: "<11000>", description: "Science Payload position and container release failure detected" },
-        { squares: [false, false, true, true, false], errorCode: "<11001>", description: "Science Payload position and container release failure with anomaly detected" },
-        { squares: [false, false, true, false, true], errorCode: "<11010>", description: "Science Payload position, container release, and descent rate failure detected" },
-        { squares: [false, false, true, false, false], errorCode: "<11011>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
-        { squares: [false, false, false, true, true], errorCode: "<11100>", description: "Science Payload position, container release, and descent rate failure detected" },
-        { squares: [false, false, false, true, false], errorCode: "<11101>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
-        { squares: [false, false, false, false, true], errorCode: "<11110>", description: "Science Payload position, container release, descent rate, and full anomaly detected" },
-        { squares: [false, false, false, false, false], errorCode: "<11111>", description: "Total system failure detected" }
+    { squares: [true, true, true, true, false], errorCode: "<00001>", description: "Minor Science Payload anomaly detected" },
+    { squares: [true, true, true, false, true], errorCode: "<00010>", description: "Minor release mechanism anomaly detected" },
+    { squares: [true, true, true, false, false], errorCode: "<00011>", description: "Science Payload and release mechanism anomalies detected" },
+    { squares: [true, true, false, true, true], errorCode: "<00100>", description: "Container descent rate deviation detected" },
+    { squares: [true, true, false, true, false], errorCode: "<00101>", description: "Container descent rate deviation and Science Payload anomaly detected" },
+    { squares: [true, true, false, false, true], errorCode: "<00110>", description: "Container descent rate deviation and release mechanism anomaly detected" },
+    { squares: [true, true, false, false, false], errorCode: "<00111>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
+    { squares: [true, false, true, true, true], errorCode: "<01000>", description: "Container release mechanism anomaly detected" },
+    { squares: [true, false, true, true, false], errorCode: "<01001>", description: "Container release mechanism and Science Payload anomalies detected" },
+    { squares: [true, false, true, false, true], errorCode: "<01010>", description: "Container release mechanism and descent rate anomalies detected" },
+    { squares: [true, false, true, false, false], errorCode: "<01011>", description: "Container release mechanism, descent rate, and Science Payload anomalies detected" },
+    { squares: [true, false, false, true, true], errorCode: "<01100>", description: "Container descent rate and release mechanism anomalies detected" },
+    { squares: [true, false, false, true, false], errorCode: "<01101>", description: "Container descent rate, release mechanism, and Science Payload anomalies detected" },
+    { squares: [true, false, false, false, true], errorCode: "<01110>", description: "Container descent rate and Science Payload position failure detected" },
+    { squares: [true, false, false, false, false], errorCode: "<01111>", description: "Container descent rate, Science Payload position failure, and release mechanism anomalies detected" },
+    { squares: [false, true, true, true, true], errorCode: "<10000>", description: "Science Payload position failure detected" },
+    { squares: [false, true, true, true, false], errorCode: "<10001>", description: "Science Payload position failure and anomaly detected" },
+    { squares: [false, true, true, false, true], errorCode: "<10010>", description: "Science Payload position failure and release mechanism anomaly detected" },
+    { squares: [false, true, true, false, false], errorCode: "<10011>", description: "Science Payload position failure, release mechanism, and anomaly detected" },
+    { squares: [false, true, false, true, true], errorCode: "<10100>", description: "Science Payload position failure and descent rate deviation detected" },
+    { squares: [false, true, false, true, false], errorCode: "<10101>", description: "Science Payload position failure, descent rate deviation, and anomaly detected" },
+    { squares: [false, true, false, false, true], errorCode: "<10110>", description: "Science Payload position failure, descent rate deviation, and release mechanism anomaly detected" },
+    { squares: [false, true, false, false, false], errorCode: "<10111>", description: "Science Payload position failure, descent rate, release mechanism, and anomaly detected" },
+    { squares: [false, false, true, true, true], errorCode: "<11000>", description: "Science Payload position and container release failure detected" },
+    { squares: [false, false, true, true, false], errorCode: "<11001>", description: "Science Payload position and container release failure with anomaly detected" },
+    { squares: [false, false, true, false, true], errorCode: "<11010>", description: "Science Payload position, container release, and descent rate failure detected" },
+    { squares: [false, false, true, false, false], errorCode: "<11011>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
+    { squares: [false, false, false, true, true], errorCode: "<11100>", description: "Science Payload position, container release, and descent rate failure detected" },
+    { squares: [false, false, false, true, false], errorCode: "<11101>", description: "Science Payload position, container release, descent rate, and anomaly detected" },
+    { squares: [false, false, false, false, true], errorCode: "<11110>", description: "Science Payload position, container release, descent rate, and full anomaly detected" },
+    { squares: [false, false, false, false, false], errorCode: "<11111>", description: "Total system failure detected" }
   ]);
 
   const { data } = useWebSocket() || {};
+
+  const [selectedState, setSelectedState] = useState(errorStates[0] || { squares: [], errorCode: "", description: "" });
 
   useEffect(() => {
     if (data && data.error_code) {
@@ -75,8 +77,6 @@ const AccelerationArrow = () => {
       }
     }
   }, [data, alarmOn, errorStates]);
-
-  const [selectedState, setSelectedState] = useState(errorStates[0] || { squares: [], errorCode: "", description: "" });
 
   const handleChange = (value) => {
     const selectedErrorState = errorStates[value] || { squares: [], errorCode: "", description: "" };
@@ -166,10 +166,11 @@ const AccelerationArrow = () => {
             </Select>
           </div>
         </div>
-        {/* <audio ref={audioRef} src="public/sounds/alert.mp3" preload="auto" />
+
+        <audio ref={audioRef} src="public/sounds/alert.mp3" preload="auto" />
         <button className={`alarm-toggle ${status === 'Error' ? 'blinking' : ''}`} onClick={toggleAlarm}>
           {alarmOn ? 'Turn Off Alarm' : 'Turn On Alarm'}
-        </button> */}
+        </button>
       </div>
     </>
   );

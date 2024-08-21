@@ -1,13 +1,13 @@
+// BodyOrientationXGraph.js
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import { useWebSocket } from "../contexts/WebSocketProvider";
 import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
 import "../App.css";
 
-
 const BodyOrientationXGraph = () => {
   ChartJS.register(CategoryScale);
-  const { data } = useWebSocket() || {}; // Default to an empty object if undefined
+  const { data } = useWebSocket(); // Используем контекст WebSocket
   const [orientationXData, setOrientationXData] = useState({
     labels: [0],
     datasets: [
@@ -16,7 +16,9 @@ const BodyOrientationXGraph = () => {
   });
 
   useEffect(() => {
-    if (data && data.pitch !== undefined) { // Check if data and data.pitch exist
+    console.log('Received data:', data); // Проверьте, что данные приходят
+
+    if (data && data.pitch !== undefined) {
       const newLabel = new Date().toLocaleTimeString();
       setOrientationXData((prevData) => {
         const updatedLabels = [...prevData.labels.slice(-6), newLabel];
@@ -34,7 +36,6 @@ const BodyOrientationXGraph = () => {
 
   return (
     <div className="orientation-x-graph-container">
-      {/* <p className="graph-title">Body Orientation X Graph</p> */}
       <Line
         data={orientationXData}
         options={{ responsive: true, maintainAspectRatio: false }}

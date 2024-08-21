@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {useWebSocket} from '../contexts/WebSocketProvider';
+import React, { useEffect, useRef, useState } from 'react';
+import { useWebSocket } from '../contexts/WebSocketProvider';
 import '../App.css'; // Ensure you have this CSS file or update accordingly
 
 const numberToText = (number) => {
@@ -25,7 +25,7 @@ const formatDate = (date) => {
 };
 
 const RealTimeData = () => {
-    const {data, connected} = useWebSocket()  || {};
+    const { data, connected } = useWebSocket() || {};
     const [status, setStatus] = useState('Error');
     const [alarmOn, setAlarmOn] = useState(true);
     const [currentTime, setCurrentTime] = useState(formatDate(new Date()));
@@ -80,17 +80,20 @@ const RealTimeData = () => {
             <div className="real-time-data-text">
                 <div className="real-time-data-text-left">
                     <p><strong>WebSocket Status:</strong> {connected ? 'Connected' : 'Disconnected'}</p>
-                    <p><strong>Satellite Status:</strong> {data ? numberToText(data.status) : 'N/A'}</p>
-                    <p><strong>Humidity:</strong> {data ? `${data.humidity} %` : 'N/A'}</p>
+                    <p><strong>Satellite Status:</strong> {data ? numberToText(data.team_number) : 'N/A'}</p>
+                    <p><strong>Temperature:</strong> {data ? `${data.temp} °C` : 'N/A'}</p>
                 </div>
                 <div className="real-time-data-text-right">
-                    <p><strong>Temperature:</strong> {data ? `${data.temperature} °C` : 'N/A'}</p>
-                    <p><strong>Voltage:</strong> {data ? `${data.voltage} V` : 'N/A'}</p>
-                    <p><strong>Pressure:</strong> {data ? `${data.pressure} Pa` : 'N/A'}</p>
-                    <p><strong>Iteration:</strong> {data ? data.i : 'N/A'}</p>
+                    <p><strong>Voltage:</strong> {data ? `${data.battery_voltage} V` : 'N/A'}</p>
+                    <p><strong>Pressure1:</strong> {data ? `${data.pressure1} Pa` : 'N/A'}</p>
+                    <p><strong>Pressure2:</strong> {data ? `${data.pressure2} Pa` : 'N/A'}</p>
+                    <p><strong>Iteration:</strong> {data ? data.lnln : 'N/A'}</p>
                 </div>
             </div>
-            
+            <audio ref={audioRef} src="/alarm-sound.mp3" preload="auto" />
+            <button onClick={toggleAlarm}>
+                {alarmOn ? 'Turn Off Alarm' : 'Turn On Alarm'}
+            </button>
         </div>
     );
 };

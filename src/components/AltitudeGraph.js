@@ -4,7 +4,6 @@ import { useWebSocket } from "../contexts/WebSocketProvider";
 import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
 import "../App.css";
 
-
 const AltitudeGraph = () => {
   ChartJS.register(CategoryScale);
   const { data } = useWebSocket() || {}; // Default to an empty object if undefined
@@ -21,11 +20,11 @@ const AltitudeGraph = () => {
   });
 
   useEffect(() => {
-    if (data && typeof data.altitude !== 'undefined') {
+    if (data && typeof data.altitude1 !== 'undefined') {
       const newLabel = new Date().toLocaleTimeString();
       setAltitude((prevData) => {
         const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedData = [...prevData.datasets[0].data.slice(-6), data.altitude];
+        const updatedData = [...prevData.datasets[0].data.slice(-6), data.altitude1];
 
         return {
           labels: updatedLabels,

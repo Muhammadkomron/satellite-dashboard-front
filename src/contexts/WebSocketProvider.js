@@ -4,10 +4,7 @@ const WebSocketContext = createContext();
 
 export const WebSocketProvider = ({ children }) => {
     const [data, setData] = useState({
-        packet_number: "",
-        sattelite_status: "",
-        error_code: "",
-        missiontime: "",
+        mission_time: "",
         pressure1: 0,
         pressure2: 0,
         altitude1: 0,
@@ -16,8 +13,9 @@ export const WebSocketProvider = ({ children }) => {
         descent_rate: 0,
         temp: 0,
         battery_voltage: 0,
-        gps_altitude: 0,
+        gps_latitude: 0,
         gps_longitude: 0,
+        gps_altitude: 0,
         pitch: 0,
         roll: 0,
         yaw: 0,
@@ -27,39 +25,54 @@ export const WebSocketProvider = ({ children }) => {
     });
 
     useEffect(() => {
-        const fetchData = async () => {
+        const socket = new WebSocket('ws://10.10.0.202:8000/ws');
+
+        socket.onopen = () => {
+            console.log('WebSocket connection established');
+        };
+
+        socket.onmessage = (event) => {
+            console.log('Received message:', event.data); // Log received data
             try {
-                const response = await fetch('http://localhost:8000');
-                const jsonData = await response.json();
-                setData({
-                    packet_number: jsonData.packet_number,
-                    sattelite_status: jsonData.sattelite_status,
-                    error_code: jsonData.error_code,
-                    missiontime: jsonData.missiontime,
-                    pressure1: parseFloat(jsonData.pressure1),
-                    pressure2: parseFloat(jsonData.pressure2),
-                    altitude1: parseFloat(jsonData.altitude1),
-                    altitude2: parseFloat(jsonData.altitude2),
-                    altitude_difference: parseFloat(jsonData.altitude_difference),
-                    descent_rate: parseFloat(jsonData.desent_rate),
-                    temp: parseFloat(jsonData.temp),
-                    battery_voltage: parseFloat(jsonData.battery_voltage),
-                    gps_altitude: parseFloat(jsonData.gps_altitude),
-                    gps_longitude: parseFloat(jsonData.gps_longitude),
-                    pitch: parseFloat(jsonData.pitch),
-                    roll: parseFloat(jsonData.roll),
-                    yaw: parseFloat(jsonData.yaw),
-                    lnln: jsonData.lnln,
-                    iot_data: parseFloat(jsonData.iot_data),
-                    team_number: jsonData.team_number,
-                });
+                const jsonData = JSON.parse(event.data);
+                if (jsonData) {
+                    setData({
+                        mission_time: jsonData["MISSION TIME"] || "",
+                        pressure1: parseFloat(jsonData["PRESSURE1"]) || 0,
+                        pressure2: parseFloat(jsonData["PRESSURE2"]) || 0,
+                        altitude1: parseFloat(jsonData["ALTITUDE1"]) || 0,
+                        altitude2: parseFloat(jsonData["ALTITUDE2"]) || 0,
+                        altitude_difference: parseFloat(jsonData["ALTITUDE DIFFERENCE"]) || 0,
+                        descent_rate: parseFloat(jsonData["DESCENT RATE"]) || 0,
+                        temp: parseFloat(jsonData["TEMP"]) || 0,
+                        battery_voltage: parseFloat(jsonData["BATTERY VOLTAGE"]) || 0,
+                        gps_latitude: parseFloat(jsonData["GPS1 LATITUDE"]) || 0,
+                        gps_longitude: parseFloat(jsonData["GPS1 LONGITUDE"]) || 0,
+                        gps_altitude: parseFloat(jsonData["GPS1 ALTITUDE"]) || 0,
+                        pitch: parseFloat(jsonData["PITCH"]) || 0,
+                        roll: parseFloat(jsonData["ROLL"]) || 0,
+                        yaw: parseFloat(jsonData["YAW"]) || 0,
+                        lnln: jsonData["LNLN"] || "",
+                        iot_data: parseFloat(jsonData["IoT DATA"]) || 0,
+                        team_number: jsonData["TEAM NUMBER"] || "",
+                    });
+                }
             } catch (error) {
-                console.error('Failed to fetch data:', error);
+                console.error('Failed to parse message:', error);
             }
         };
 
-        const interval = setInterval(fetchData, 1000);
-        return () => clearInterval(interval);
+        socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        socket.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        return () => {
+            socket.close();
+        };
     }, []);
 
     return (

@@ -14,23 +14,23 @@ const customIcon = new Icon({
 });
 
 // Границы Турции
-const turkeyBounds = new LatLngBounds(
-    [35.813, 25.0], // Юго-восточный угол
-    [42.1, 44.8]   // Северо-западный угол
-);
+// const turkeyBounds = new LatLngBounds(
+//     [35.813, 25.0], // Юго-восточный угол
+//     [42.1, 44.8]   // Северо-западный угол
+// );
 
 const GlobalPositioningSystem = () => {
-    const [position, setPosition] = useState([35.813, 25.0]); // Initial position can be outside bounds for better visibility
+    const [position, setPosition] = useState([35.813, 25.0]); // Начальная позиция
     const [altitude, setAltitude] = useState(0);
 
-    const { data } = useWebSocket() || {}; // Assuming data contains latitude, longitude, and altitude
+    const { data } = useWebSocket() || {}; // Предполагается, что data содержит latitude, longitude и altitude
 
     useEffect(() => {
         if (data) {
-            const { latitude, longitude, altitude } = data;
-            if (latitude && longitude) {
+            const { gps_latitude: latitude, gps_longitude: longitude, gps_altitude: altitude } = data;
+            if (latitude !== undefined && longitude !== undefined) {
                 setPosition([latitude, longitude]);
-                setAltitude(altitude || 0); // Fallback to 0 if altitude is not available
+                setAltitude(altitude || 0); // Установка значения высоты или 0, если значение не доступно
             }
         }
     }, [data]);
@@ -49,7 +49,7 @@ const GlobalPositioningSystem = () => {
                 center={[latitude, longitude]}
                 zoom={6}
                 style={{ height: "250px", width: "100%" }}
-                maxBounds={turkeyBounds}
+                // maxBounds={turkeyBounds}
                 maxBoundsViscosity={1.0}
             >
                 <TileLayer

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Canvas } from '@react-three/fiber'; // Импортируем Canvas из react-three/fiber
+
 import WebRTCPlayer from './components/WebRTCPlayer';
-import AccelGraph from './components/AccelGraph';
+// import AccelGraph from './components/AccelGraph';
 import GyroGraph from './components/GyroGraph';
 import AltitudeGraph from './components/AltitudeGraph';
 import ThrottleGraph from './components/ThrottleGraph';
@@ -10,9 +12,10 @@ import BodyOrientationZGraph from './components/BodyOrientationZGraph';
 import GlobalPositioningSystem from './components/GlobalPositioningSystem';
 import RawTelemetryGraph from './components/RawTelemetryGraph';
 import AccelerationArrow from './components/AccelerationArrow';
+import RealTimeData from './components/RealTimeData';
+import Satellite from './components/Satellite';
 
 import './App.css'; // Импортируем CSS файл
-import RealTimeData from './components/RealTimeData';
 
 function App() {
     return (
@@ -20,7 +23,11 @@ function App() {
             <div className="main-content">
                 <div className="graphs top">
                     <GyroGraph />
-                    <AccelGraph />
+                  
+                    <Canvas>
+                        <Satellite />
+                    </Canvas>
+                    {/* <AccelGraph /> */}
                     <BodyOrientationXGraph />
                     <BodyOrientationYGraph />
                     <BodyOrientationZGraph />
@@ -28,13 +35,13 @@ function App() {
                 <div className="side-panel left">
                     <GlobalPositioningSystem />
                     <AltitudeGraph />
-                    <RawTelemetryGraph />
+                    {/* <RawTelemetryGraph /> */}
                 </div>
                 <WebRTCPlayer />
                 <div className="side-panel right">
-                    <ThrottleGraph />
-                    <AccelerationArrow/>
-                    <RealTimeData/>
+                    {/* <ThrottleGraph /> */}
+                    <AccelerationArrow />
+                    <RealTimeData />
                 </div>
             </div>
         </div>

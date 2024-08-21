@@ -4,10 +4,11 @@ import { useWebSocket } from "../contexts/WebSocketProvider";
 import { CategoryScale, Chart as ChartJS } from "chart.js/auto";
 import "../App.css";
 
-
 const AccelGraph = () => {
   ChartJS.register(CategoryScale);
   const { data } = useWebSocket() || {}; // Default to an empty object if undefined
+
+  // Initialize state for the graph
   const [accelData, setAccelData] = useState({
     labels: [0],
     datasets: [
@@ -18,13 +19,17 @@ const AccelGraph = () => {
   });
 
   useEffect(() => {
-    if (data && data.acceleration) { // Check if data and data.acceleration exist
+    // Debug: Log received data
+    console.log("Received data:", data);
+
+    if (data && data.acceleration) {
       const newLabel = new Date().toLocaleTimeString();
+
       setAccelData((prevData) => {
         const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedX = [...prevData.datasets[0].data.slice(-6), data.acceleration.x];
-        const updatedY = [...prevData.datasets[1].data.slice(-6), data.acceleration.y];
-        const updatedZ = [...prevData.datasets[2].data.slice(-6), data.acceleration.z];
+        const updatedX = [...prevData.datasets[0].data.slice(-6), data.acceleration.x || 0];
+        const updatedY = [...prevData.datasets[1].data.slice(-6), data.acceleration.y || 0];
+        const updatedZ = [...prevData.datasets[2].data.slice(-6), data.acceleration.z || 0];
 
         return {
           labels: updatedLabels,
@@ -35,6 +40,8 @@ const AccelGraph = () => {
           ],
         };
       });
+    } else {
+      console.warn("No acceleration data found in received data.");
     }
   }, [data]);
 
