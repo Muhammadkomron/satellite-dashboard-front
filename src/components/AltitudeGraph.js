@@ -11,10 +11,16 @@ const AltitudeGraph = () => {
     labels: [0],
     datasets: [
       {
-        label: "Altitude",
+        label: "Altitude1",
         data: [0],
         fill: false,
         borderColor: "blue",
+      },
+      {
+        label: "Altitude2",
+        data: [1],
+        fill: false,
+        borderColor: "red",
       },
     ],
   });
@@ -23,8 +29,9 @@ const AltitudeGraph = () => {
     if (data && typeof data.altitude1 !== 'undefined') {
       const newLabel = new Date().toLocaleTimeString();
       setAltitude((prevData) => {
-        const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedData = [...prevData.datasets[0].data.slice(-6), data.altitude1];
+        const updatedLabels = [...prevData.labels.slice(-15), newLabel];
+        const updatedData = [...prevData.datasets[0].data.slice(-15), data.altitude1];
+        const updatedData2 = [...prevData.datasets[1].data.slice(-15), data.altitude2];
 
         return {
           labels: updatedLabels,
@@ -33,6 +40,10 @@ const AltitudeGraph = () => {
               ...prevData.datasets[0],
               data: updatedData,
             },
+            {
+                ...prevData.datasets[1],
+                data: updatedData2,
+              },
           ],
         };
       });

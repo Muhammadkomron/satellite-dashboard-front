@@ -11,7 +11,7 @@ const BodyOrientationXGraph = () => {
   const [orientationXData, setOrientationXData] = useState({
     labels: [0],
     datasets: [
-      { label: "Pitch", data: [0], fill: false, borderColor: "green" },
+      { label: "Battery Voltage", data: [0], fill: false, borderColor: "green" },
     ],
   });
 
@@ -22,7 +22,7 @@ const BodyOrientationXGraph = () => {
       const newLabel = new Date().toLocaleTimeString();
       setOrientationXData((prevData) => {
         const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedPitch = [...prevData.datasets[0].data.slice(-6), data.pitch];
+        const updatedPitch = [...prevData.datasets[0].data.slice(-6), data.battery_voltage];
 
         return {
           labels: updatedLabels,

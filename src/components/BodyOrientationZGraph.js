@@ -11,7 +11,8 @@ const BodyOrientationZGraph = () => {
   const [orientationZData, setOrientationZData] = useState({
     labels: [0],
     datasets: [
-      { label: "Yaw", data: [0], fill: false, borderColor: "red" },
+      { label: "Pressure1", data: [0], fill: false, borderColor: "red" },
+      { label: "Pressure2", data: [1], fill: false, borderColor: "green" },
     ],
   });
 
@@ -19,13 +20,15 @@ const BodyOrientationZGraph = () => {
     if (data && data.yaw !== undefined) { // Check if data and data.yaw exist
       const newLabel = new Date().toLocaleTimeString();
       setOrientationZData((prevData) => {
-        const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedYaw = [...prevData.datasets[0].data.slice(-6), data.yaw];
+        const updatedLabels = [...prevData.labels.slice(-15), newLabel];
+        const updatedPressure1 = [...prevData.datasets[0].data.slice(-15), data.pressure1];
+        const updatedPressure2 = [...prevData.datasets[1].data.slice(-15), data.pressure2];
 
         return {
           labels: updatedLabels,
           datasets: [
-            { ...prevData.datasets[0], data: updatedYaw },
+            { ...prevData.datasets[0], data: updatedPressure1 },
+            { ...prevData.datasets[1], data: updatedPressure2 },
           ],
         };
       });

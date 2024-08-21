@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { Icon, LatLngBounds } from 'leaflet';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { Icon } from 'leaflet';
 import "../App.css";
 import 'leaflet/dist/leaflet.css';
 import { useWebSocket } from '../contexts/WebSocketProvider'; // Assuming you have a WebSocket context
@@ -13,11 +13,18 @@ const customIcon = new Icon({
     popupAnchor: [0, -32]
 });
 
-// Границы Турции
-// const turkeyBounds = new LatLngBounds(
-//     [35.813, 25.0], // Юго-восточный угол
-//     [42.1, 44.8]   // Северо-западный угол
-// );
+// Компонент для обновления центра карты
+const MapCenterUpdater = ({ position }) => {
+    const map = useMap();
+
+    useEffect(() => {
+        if (position) {
+            map.setView(position, map.getZoom()); // Обновляем центр карты
+        }
+    }, [position, map]);
+
+    return null;
+};
 
 const GlobalPositioningSystem = () => {
     const [position, setPosition] = useState([35.813, 25.0]); // Начальная позиция
@@ -62,6 +69,7 @@ const GlobalPositioningSystem = () => {
                         Lon: {longitude.toFixed(6)}<br />Altitude: {altitude} meters
                     </Popup>
                 </Marker>
+                <MapCenterUpdater position={[latitude, longitude]} />
             </MapContainer>
         </div>
     );

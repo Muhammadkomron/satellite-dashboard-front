@@ -11,7 +11,7 @@ const BodyOrientationYGraph = () => {
   const [orientationYData, setOrientationYData] = useState({
     labels: [0],
     datasets: [
-      { label: "Roll", data: [0], fill: false, borderColor: "blue" },
+      { label: "Temprature", data: [0], fill: false, borderColor: "blue" },
     ],
   });
 
@@ -19,8 +19,8 @@ const BodyOrientationYGraph = () => {
     if (data && data.roll !== undefined) { // Check if data and data.roll exist
       const newLabel = new Date().toLocaleTimeString();
       setOrientationYData((prevData) => {
-        const updatedLabels = [...prevData.labels.slice(-6), newLabel];
-        const updatedRoll = [...prevData.datasets[0].data.slice(-6), data.roll];
+        const updatedLabels = [...prevData.labels.slice(-15), newLabel];
+        const updatedRoll = [...prevData.datasets[0].data.slice(-15), data.temp];
 
         return {
           labels: updatedLabels,
